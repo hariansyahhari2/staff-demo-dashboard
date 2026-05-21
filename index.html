@@ -379,9 +379,22 @@
 </div>
 <div class="grid grid-cols-1 xl:grid-cols-3 gap-0">
 <div class="xl:col-span-2 p-4">
-<div class="relative aspect-[2048/930] rounded-lg border border-outline-variant bg-white overflow-hidden">
+<div id="branchMapFrame" class="relative aspect-[2048/930] rounded-lg border border-outline-variant bg-white overflow-hidden cursor-grab active:cursor-grabbing touch-none">
+<div id="branchMapViewport" class="absolute inset-0 transition-transform duration-100 ease-out origin-center">
 <img alt="Malaysia branch map" class="absolute inset-0 w-full h-full object-fill" src="./malaysia-branch-map.png">
 <div id="branchMapPins" class="absolute inset-0"></div>
+</div>
+<div class="absolute right-4 top-4 bg-surface-container-lowest/95 border border-outline-variant rounded-lg shadow-sm overflow-hidden">
+<button id="branchMapZoomIn" class="w-9 h-9 flex items-center justify-center text-primary hover:bg-primary-fixed transition-colors border-b border-outline-variant" type="button" aria-label="Zoom in map">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+</button>
+<button id="branchMapZoomOut" class="w-9 h-9 flex items-center justify-center text-primary hover:bg-primary-fixed transition-colors border-b border-outline-variant" type="button" aria-label="Zoom out map">
+<span class="material-symbols-outlined" style="font-size: 18px;">remove</span>
+</button>
+<button id="branchMapZoomReset" class="w-9 h-9 flex items-center justify-center text-primary hover:bg-primary-fixed transition-colors" type="button" aria-label="Reset map zoom">
+<span class="material-symbols-outlined" style="font-size: 18px;">center_focus_strong</span>
+</button>
+</div>
 <div class="absolute left-4 bottom-4 bg-surface-container-lowest/95 border border-outline-variant rounded-md px-3 py-2 shadow-sm">
 <div class="flex items-center gap-3 font-label-sm text-label-sm text-on-surface-variant">
 <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-primary"></span> Active</span>
@@ -1023,6 +1036,10 @@ const branchMapPositionOverrides = {
 
 let activeSnapshotIndex = 0;
 let liveActivityTimerId = null;
+let branchMapZoom = 1;
+let branchMapPanX = 0;
+let branchMapPanY = 0;
+let branchMapDragStart = null;
 
 const formatNumber = (value) => new Intl.NumberFormat("en-MY").format(value);
 const currentTimeLabel = () => new Date().toLocaleTimeString("en-MY", {
@@ -1277,6 +1294,62 @@ function projectBranchToMap(branch) {
     };
 }
 
+function updateBranchMapZoom(nextZoom) {
+    branchMapZoom = Math.min(Math.max(nextZoom, 1), 2.2);
+
+    if (branchMapZoom === 1) {
+        branchMapPanX = 0;
+        branchMapPanY = 0;
+    }
+
+    updateBranchMapTransform();
+}
+
+function updateBranchMapTransform() {
+    document.getElementById("branchMapViewport").style.transform = `translate(${branchMapPanX}px, ${branchMapPanY}px) scale(${branchMapZoom})`;
+}
+
+function startBranchMapDrag(event) {
+    if (branchMapZoom <= 1 || event.target.closest("button")) {
+        return;
+    }
+
+    branchMapDragStart = {
+        pointerId: event.pointerId,
+        x: event.clientX,
+        y: event.clientY,
+        panX: branchMapPanX,
+        panY: branchMapPanY
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+}
+
+function moveBranchMapDrag(event) {
+    if (!branchMapDragStart || event.pointerId !== branchMapDragStart.pointerId) {
+        return;
+    }
+
+    branchMapPanX = branchMapDragStart.panX + event.clientX - branchMapDragStart.x;
+    branchMapPanY = branchMapDragStart.panY + event.clientY - branchMapDragStart.y;
+    updateBranchMapTransform();
+}
+
+function endBranchMapDrag(event) {
+    if (!branchMapDragStart || event.pointerId !== branchMapDragStart.pointerId) {
+        return;
+    }
+
+    branchMapDragStart = null;
+    event.currentTarget.releasePointerCapture(event.pointerId);
+}
+
+function resetBranchMapView() {
+    branchMapZoom = 1;
+    branchMapPanX = 0;
+    branchMapPanY = 0;
+    updateBranchMapTransform();
+}
+
 function selectBranchLocation(index) {
     const branch = branchLocationData[index] || branchLocationData[0];
     const statusClass = branch.status === "Peak" ? "text-secondary bg-secondary-fixed" : "text-primary bg-primary-fixed";
@@ -1435,6 +1508,13 @@ document.querySelectorAll(".branch-period-tab").forEach((tab) => {
 document.getElementById("branchSearchInput").addEventListener("input", () => renderBranchLocationMap());
 document.getElementById("branchRegionFilter").addEventListener("change", () => renderBranchLocationMap());
 document.getElementById("branchStatusFilter").addEventListener("change", () => renderBranchLocationMap());
+document.getElementById("branchMapZoomIn").addEventListener("click", () => updateBranchMapZoom(branchMapZoom + 0.2));
+document.getElementById("branchMapZoomOut").addEventListener("click", () => updateBranchMapZoom(branchMapZoom - 0.2));
+document.getElementById("branchMapZoomReset").addEventListener("click", resetBranchMapView);
+document.getElementById("branchMapFrame").addEventListener("pointerdown", startBranchMapDrag);
+document.getElementById("branchMapFrame").addEventListener("pointermove", moveBranchMapDrag);
+document.getElementById("branchMapFrame").addEventListener("pointerup", endBranchMapDrag);
+document.getElementById("branchMapFrame").addEventListener("pointercancel", endBranchMapDrag);
 document.getElementById("closeStaffInfoButton").addEventListener("click", closeStaffInfo);
 document.getElementById("staffInfoModal").addEventListener("click", (event) => {
     if (event.target.id === "staffInfoModal") {
