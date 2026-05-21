@@ -260,7 +260,7 @@
 <!-- Dashboard Header -->
 <div class="flex flex-col sm:flex-row justify-between sm:items-end gap-4 mb-stack-sm">
 <div>
-<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Branch Overview</h2>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Branch Tracker</h2>
 <p class="font-body-md text-body-md text-on-surface-variant mt-1">Real-time visitor and staff metrics for today.</p>
 <div class="flex flex-wrap items-center gap-2 mt-2">
 <p id="lastUpdated" class="font-label-sm text-label-sm text-on-surface-variant">Last updated: 04:28 PM</p>
@@ -836,7 +836,7 @@ const branchRankingData = {
         { name: "Petaling Jaya", code: "PJY", region: "Central", visitors: 1210, wait: "12m", capacity: 91 },
         { name: "Shah Alam", code: "SHA", region: "Central", visitors: 980, wait: "11m", capacity: 86 },
         { name: "Johor Bahru", code: "JHB", region: "Southern", visitors: 750, wait: "10m", capacity: 79 },
-        { name: "Penang", code: "PEN", region: "Northern", visitors: 698, wait: "9m", capacity: 76 },
+        { name: "Georgetown", code: "GTN", region: "Northern", visitors: 698, wait: "9m", capacity: 76 },
         { name: "Ipoh", code: "IPH", region: "Northern", visitors: 641, wait: "8m", capacity: 72 },
         { name: "Klang", code: "KLG", region: "Central", visitors: 604, wait: "9m", capacity: 70 },
         { name: "Seremban", code: "SRB", region: "Southern", visitors: 572, wait: "7m", capacity: 66 },
@@ -1046,6 +1046,12 @@ const currentTimeLabel = () => new Date().toLocaleTimeString("en-MY", {
     hour: "2-digit",
     minute: "2-digit"
 });
+
+const dailyBranchVisitorMap = new Map(branchRankingData.daily.map((branch) => [branch.code, branch.visitors]));
+
+function getBranchDailyVisitors(branch) {
+    return dailyBranchVisitorMap.get(branch.code) || branch.visitors;
+}
 
 function categoryBadge(category) {
     const badgeClasses = {
@@ -1359,7 +1365,7 @@ function selectBranchLocation(index) {
     document.getElementById("selectedBranchRegion").textContent = branch.region;
     document.getElementById("selectedBranchStatus").textContent = branch.status;
     document.getElementById("selectedBranchStatus").className = `font-label-sm text-label-sm px-2 py-1 rounded-md ${statusClass}`;
-    document.getElementById("selectedBranchVisitors").textContent = `${formatNumber(branch.visitors)} visitors`;
+    document.getElementById("selectedBranchVisitors").textContent = `${formatNumber(getBranchDailyVisitors(branch))} visitors`;
     document.getElementById("selectedBranchCode").textContent = branch.code;
 
     document.querySelectorAll(".branch-map-pin").forEach((pin) => {
@@ -1427,7 +1433,7 @@ function renderBranchLocationMap(selectedIndex = 0) {
                 </div>
                 <div class="text-right shrink-0">
                     <span class="font-label-sm text-label-sm ${branch.status === "Peak" ? "text-secondary bg-secondary-fixed" : "text-primary bg-primary-fixed"} px-2 py-0.5 rounded-md">${branch.status}</span>
-                    <p class="font-label-sm text-label-sm text-on-surface mt-1">${formatNumber(branch.visitors)} Visitors</p>
+                    <p class="font-label-sm text-label-sm text-on-surface mt-1">${formatNumber(getBranchDailyVisitors(branch))} Visitors</p>
                 </div>
             </div>
         </button>
