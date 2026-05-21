@@ -379,7 +379,7 @@
 </div>
 <div class="grid grid-cols-1 xl:grid-cols-3 gap-0">
 <div class="xl:col-span-2 p-4">
-<div id="branchMapFrame" class="relative aspect-[2048/930] rounded-lg border border-outline-variant bg-white overflow-hidden cursor-grab active:cursor-grabbing touch-none">
+<div id="branchMapFrame" class="relative aspect-[2048/930] rounded-lg border border-outline-variant bg-white overflow-hidden cursor-grab">
 <div id="branchMapViewport" class="absolute inset-0 transition-transform duration-100 ease-out origin-center">
 <img alt="Malaysia branch map" class="absolute inset-0 w-full h-full object-fill" src="./malaysia-branch-map.png">
 <div id="branchMapPins" class="absolute inset-0"></div>
@@ -1314,33 +1314,34 @@ function startBranchMapDrag(event) {
         return;
     }
 
+    event.preventDefault();
     branchMapDragStart = {
-        pointerId: event.pointerId,
         x: event.clientX,
         y: event.clientY,
         panX: branchMapPanX,
         panY: branchMapPanY
     };
-    event.currentTarget.setPointerCapture(event.pointerId);
+    document.getElementById("branchMapFrame").classList.add("cursor-grabbing");
 }
 
 function moveBranchMapDrag(event) {
-    if (!branchMapDragStart || event.pointerId !== branchMapDragStart.pointerId) {
+    if (!branchMapDragStart) {
         return;
     }
 
+    event.preventDefault();
     branchMapPanX = branchMapDragStart.panX + event.clientX - branchMapDragStart.x;
     branchMapPanY = branchMapDragStart.panY + event.clientY - branchMapDragStart.y;
     updateBranchMapTransform();
 }
 
-function endBranchMapDrag(event) {
-    if (!branchMapDragStart || event.pointerId !== branchMapDragStart.pointerId) {
+function endBranchMapDrag() {
+    if (!branchMapDragStart) {
         return;
     }
 
     branchMapDragStart = null;
-    event.currentTarget.releasePointerCapture(event.pointerId);
+    document.getElementById("branchMapFrame").classList.remove("cursor-grabbing");
 }
 
 function resetBranchMapView() {
@@ -1512,9 +1513,9 @@ document.getElementById("branchMapZoomIn").addEventListener("click", () => updat
 document.getElementById("branchMapZoomOut").addEventListener("click", () => updateBranchMapZoom(branchMapZoom - 0.2));
 document.getElementById("branchMapZoomReset").addEventListener("click", resetBranchMapView);
 document.getElementById("branchMapFrame").addEventListener("pointerdown", startBranchMapDrag);
-document.getElementById("branchMapFrame").addEventListener("pointermove", moveBranchMapDrag);
-document.getElementById("branchMapFrame").addEventListener("pointerup", endBranchMapDrag);
-document.getElementById("branchMapFrame").addEventListener("pointercancel", endBranchMapDrag);
+document.addEventListener("pointermove", moveBranchMapDrag);
+document.addEventListener("pointerup", endBranchMapDrag);
+document.addEventListener("pointercancel", endBranchMapDrag);
 document.getElementById("closeStaffInfoButton").addEventListener("click", closeStaffInfo);
 document.getElementById("staffInfoModal").addEventListener("click", (event) => {
     if (event.target.id === "staffInfoModal") {
