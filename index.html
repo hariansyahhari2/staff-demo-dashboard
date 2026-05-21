@@ -1,0 +1,748 @@
+<!DOCTYPE html><html class="light" lang="en"><svg class="inline-defs-container" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></svg><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>EPF Branch Portal - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface": "#fcf9f8",
+                "surface-variant": "#e5e2e1",
+                "inverse-on-surface": "#f3f0ef",
+                "on-primary-container": "#9ca7ff",
+                "primary": "#101f79",
+                "on-primary-fixed": "#000d60",
+                "surface-container": "#f0eded",
+                "on-tertiary-container": "#4f3e00",
+                "surface-dim": "#dcd9d9",
+                "outline-variant": "#c6c5d3",
+                "on-background": "#1c1b1b",
+                "tertiary": "#735c00",
+                "outline": "#767683",
+                "background": "#fcf9f8",
+                "tertiary-container": "#cca830",
+                "surface-container-high": "#eae7e7",
+                "primary-fixed": "#dfe0ff",
+                "on-surface": "#1c1b1b",
+                "on-tertiary": "#ffffff",
+                "surface-container-low": "#f6f3f2",
+                "on-error-container": "#93000a",
+                "on-tertiary-fixed-variant": "#574500",
+                "on-secondary-fixed-variant": "#93000d",
+                "secondary-fixed-dim": "#ffb4ab",
+                "on-tertiary-fixed": "#241a00",
+                "on-surface-variant": "#454652",
+                "error-container": "#ffdad6",
+                "tertiary-fixed-dim": "#e9c349",
+                "surface-container-lowest": "#ffffff",
+                "on-secondary-fixed": "#410002",
+                "on-primary": "#ffffff",
+                "tertiary-fixed": "#ffe088",
+                "inverse-primary": "#bcc3ff",
+                "primary-fixed-dim": "#bcc3ff",
+                "inverse-surface": "#313030",
+                "on-primary-fixed-variant": "#313e95",
+                "surface-tint": "#4a57ae",
+                "error": "#ba1a1a",
+                "secondary-container": "#e71520",
+                "on-error": "#ffffff",
+                "on-secondary": "#ffffff",
+                "secondary": "#bb0013",
+                "primary-container": "#2b388f",
+                "surface-container-highest": "#e5e2e1",
+                "surface-bright": "#fcf9f8",
+                "secondary-fixed": "#ffdad6",
+                "on-secondary-container": "#fffbff"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "margin-mobile": "16px",
+                "margin-desktop": "40px",
+                "stack-lg": "32px",
+                "stack-md": "16px",
+                "container-max-width": "1280px",
+                "base": "8px",
+                "stack-sm": "8px",
+                "gutter": "24px"
+        },
+        "fontFamily": {
+                "headline-md": [
+                        "IBM Plex Sans"
+                ],
+                "label-sm": [
+                        "IBM Plex Sans"
+                ],
+                "headline-lg-mobile": [
+                        "IBM Plex Sans"
+                ],
+                "headline-xl": [
+                        "IBM Plex Sans"
+                ],
+                "body-sm": [
+                        "IBM Plex Sans"
+                ],
+                "body-lg": [
+                        "IBM Plex Sans"
+                ],
+                "label-lg": [
+                        "IBM Plex Sans"
+                ],
+                "body-md": [
+                        "IBM Plex Sans"
+                ],
+                "headline-lg": [
+                        "IBM Plex Sans"
+                ]
+        },
+        "fontSize": {
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "label-sm": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "fontWeight": "500"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "28px",
+                        {
+                                "lineHeight": "34px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-xl": [
+                        "48px",
+                        {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-sm": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-lg": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        .spin-on-refresh {
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .profile-menu[hidden],
+        .refresh-toast[hidden] {
+            display: none;
+        }
+      </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface border-b border-outline-variant w-full z-50 sticky top-0">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop max-w-container-max-width mx-auto h-16">
+<div class="flex items-center gap-gutter">
+<h1 class="text-headline-md font-headline-xl font-bold text-primary">EPF Branch Portal</h1>
+</div>
+<div class="flex items-center gap-base relative">
+<button aria-label="Help" class="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 opacity-80">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button aria-label="Language" class="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 opacity-80">
+<span class="material-symbols-outlined">language</span>
+</button>
+<button id="profileButton" aria-expanded="false" aria-controls="profileMenu" class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-label-lg text-label-lg ml-2 ring-0 hover:ring-2 hover:ring-primary-fixed-dim focus:outline-none focus:ring-2 focus:ring-primary-fixed-dim transition-all">
+                    A
+                </button>
+<div id="profileMenu" class="profile-menu absolute right-0 top-12 w-80 max-w-[calc(100vw-32px)] bg-surface-container-lowest border border-outline-variant rounded-xl shadow-lg overflow-hidden z-50" hidden>
+<div class="p-4 bg-primary text-on-primary">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-on-primary text-primary flex items-center justify-center font-bold">A</div>
+<div>
+<p id="profileName" class="font-label-lg text-label-lg">Aina Rahman</p>
+<p class="font-label-sm text-label-sm opacity-90">Branch Operations Officer</p>
+</div>
+</div>
+</div>
+<div class="p-4 grid grid-cols-2 gap-3 text-body-sm">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Staff ID</p>
+<p id="profileStaffId" class="font-label-lg text-label-lg text-on-surface">EPF-08421</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Branch</p>
+<p id="profileBranch" class="font-label-lg text-label-lg text-on-surface">Kuala Lumpur Main</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Shift</p>
+<p id="profileShift" class="font-label-lg text-label-lg text-on-surface">08:00 - 17:00</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Queue Role</p>
+<p id="profileRole" class="font-label-lg text-label-lg text-on-surface">Registration Desk</p>
+</div>
+</div>
+<div class="px-4 pb-4 flex items-center justify-between">
+<span id="profileStatus" class="inline-flex items-center gap-1 text-green-700 bg-green-50 border border-green-100 px-2 py-1 rounded-md font-label-sm text-label-sm">
+<span class="w-2 h-2 bg-green-600 rounded-full"></span>
+                    Online
+                </span>
+<span id="profileLastLogin" class="font-label-sm text-label-sm text-on-surface-variant">Last login: 08:12 AM</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-container-max-width mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col gap-gutter">
+<!-- Dashboard Header -->
+<div class="flex flex-col sm:flex-row justify-between sm:items-end gap-4 mb-stack-sm">
+<div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Branch Overview</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Real-time visitor and staff metrics for today.</p>
+<p id="lastUpdated" class="font-label-sm text-label-sm text-on-surface-variant mt-2">Last updated: 04:28 PM</p>
+</div>
+<div class="flex flex-wrap gap-2 justify-end">
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg border border-outline-variant text-primary font-label-lg text-label-lg hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">download</span>
+                    Export
+                </button>
+<button id="refreshDataButton" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-on-primary font-label-lg text-label-lg hover:opacity-90 disabled:opacity-70 disabled:cursor-wait transition-opacity" type="button">
+<span id="refreshIcon" class="material-symbols-outlined" style="font-size: 18px;">refresh</span>
+<span id="refreshButtonText">
+                    Refresh Data
+</span>
+                </button>
+</div>
+</div>
+<div id="refreshToast" class="refresh-toast fixed right-4 top-20 bg-inverse-surface text-inverse-on-surface px-4 py-3 rounded-lg shadow-lg z-50 font-body-sm text-body-sm" hidden>
+    Dashboard data refreshed.
+</div>
+<!-- Summary Cards Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<p class="font-label-lg text-label-lg text-on-surface-variant">Total Branches</p>
+<div class="p-1.5 bg-primary-fixed rounded-lg text-primary">
+<span class="material-symbols-outlined" style="font-size: 20px;">domain</span>
+</div>
+</div>
+<div class="flex items-end gap-3 mt-2">
+<h3 class="font-headline-xl text-headline-xl text-primary m-0">70</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant mb-1">Active nationwide</span>
+</div>
+</div>
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<p class="font-label-lg text-label-lg text-on-surface-variant">Total Registrations Today</p>
+<div class="p-1.5 bg-primary-fixed rounded-lg text-primary">
+<span class="material-symbols-outlined" style="font-size: 20px;">groups</span>
+</div>
+</div>
+<div class="flex items-end gap-3 mt-2">
+<h3 id="totalRegistrations" class="font-headline-xl text-headline-xl text-primary m-0">1,248</h3>
+<span id="registrationTrend" class="font-label-sm text-label-sm text-green-600 bg-green-50 px-2 py-0.5 rounded flex items-center mb-1">
+<span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> <span id="registrationTrendValue">+12%</span>
+                    </span>
+</div>
+</div>
+</div>
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
+<div class="p-4 bg-surface-container-low border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Top Branches by Volume</h3>
+<button class="text-primary font-label-lg text-label-lg hover:underline">View Analytics</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-highest border-b border-outline-variant">
+<th class="p-3 font-label-lg text-label-lg text-on-surface-variant">Branch Name</th>
+<th class="p-3 font-label-lg text-label-lg text-on-surface-variant">Daily Volume</th>
+</tr>
+</thead>
+<tbody id="topBranchesBody" class="font-body-sm text-body-sm text-on-surface divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-3 font-medium">Kuala Lumpur (Main)</td>
+<td class="p-3">1,248</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-3 font-medium">Petaling Jaya</td>
+<td class="p-3">942</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-3 font-medium">Shah Alam</td>
+<td class="p-3">815</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Charts Section -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<!-- Bar Chart: Reason for Attendance -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col h-[400px]">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6">Reason for Attendance</h3>
+<div class="flex-grow flex items-end gap-4 relative">
+<!-- Y Axis Labels (Mock) -->
+<div class="absolute left-0 top-0 bottom-8 flex flex-col justify-between text-label-sm text-on-surface-variant font-label-sm">
+<span>400</span>
+<span>300</span>
+<span>200</span>
+<span>100</span>
+<span>0</span>
+</div>
+<!-- Chart Area -->
+<div class="ml-8 flex-grow flex items-end justify-around h-full border-b border-l border-outline-variant pb-2 pl-2">
+<!-- Bar 1 -->
+<div class="flex flex-col items-center gap-2 w-1/5 group">
+<div id="barSst" class="w-full bg-primary rounded-t-sm h-[80%] group-hover:bg-primary-fixed-variant transition-all duration-300 relative">
+<div id="barSstValue" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">320</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-center leading-tight">SST</span>
+</div>
+<!-- Bar 2 -->
+<div class="flex flex-col items-center gap-2 w-1/5 group">
+<div id="barMip" class="w-full bg-tertiary rounded-t-sm h-[45%] group-hover:bg-tertiary-fixed-dim transition-all duration-300 relative">
+<div id="barMipValue" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">180</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-center leading-tight">MIP</span>
+</div>
+<!-- Bar 3 -->
+<div class="flex flex-col items-center gap-2 w-1/5 group">
+<div id="barEip" class="w-full bg-primary-fixed-dim rounded-t-sm h-[30%] group-hover:bg-primary-fixed transition-all duration-300 relative">
+<div id="barEipValue" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">120</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-center leading-tight">EIP</span>
+</div>
+<!-- Bar 4 -->
+<div class="flex flex-col items-center gap-2 w-1/5 group">
+<div id="barService" class="w-full bg-outline rounded-t-sm h-[60%] group-hover:bg-outline-variant transition-all duration-300 relative">
+<div id="barServiceValue" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">240</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-center leading-tight">e-Service</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Line Graph: Registration Volume (Mock Representation) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col h-[400px]">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6">Registration Volume Today</h3>
+<div class="flex-grow relative border-b border-l border-outline-variant ml-8 mb-8">
+<!-- Y Axis Labels (Mock) -->
+<div class="absolute -left-8 top-0 bottom-0 flex flex-col justify-between text-label-sm text-on-surface-variant font-label-sm">
+<span>150</span>
+<span>100</span>
+<span>50</span>
+<span>0</span>
+</div>
+<!-- X Axis Labels -->
+<div class="absolute -bottom-6 left-0 right-0 flex justify-between text-label-sm text-on-surface-variant font-label-sm">
+<span>8 AM</span>
+<span>10 AM</span>
+<span>12 PM</span>
+<span>2 PM</span>
+<span>4 PM</span>
+</div>
+<!-- SVG Line (Visual representation) -->
+<svg class="w-full h-full absolute top-0 left-0" preserveAspectRatio="none" viewBox="0 0 100 100">
+<path id="volumeLine" class="opacity-80 transition-all duration-300" d="M0,80 C20,70 30,20 50,40 C70,60 80,30 100,50" fill="none" stroke="#101f79" stroke-width="2"></path>
+<path id="volumeArea" class="opacity-20 transition-all duration-300" d="M0,100 L0,80 C20,70 30,20 50,40 C70,60 80,30 100,50 L100,100 Z" fill="url(#blue-gradient)"></path>
+<defs>
+<linearGradient id="blue-gradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#101f79"></stop>
+<stop offset="100%" stop-color="#fcf9f8" stop-opacity="0"></stop>
+</linearGradient>
+</defs>
+<!-- Data Points -->
+<circle class="volume-point" cx="0" cy="80" fill="#101f79" r="2"></circle>
+<circle class="volume-point" cx="25" cy="50" fill="#101f79" r="2"></circle>
+<circle class="volume-point" cx="50" cy="40" fill="#101f79" r="2"></circle>
+<circle class="volume-point" cx="75" cy="45" fill="#101f79" r="2"></circle>
+<circle class="volume-point" cx="100" cy="50" fill="#101f79" r="2"></circle>
+</svg>
+</div>
+</div>
+</div>
+<!-- Data Tables Section -->
+<div class="grid grid-cols-1 gap-gutter">
+<!-- Recent Registrations -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
+<div class="p-4 bg-surface-container-low border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Recent Registrations</h3>
+<button class="text-primary font-label-lg text-label-lg hover:underline">View All</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-highest border-b border-outline-variant">
+<th class="p-3 font-label-lg text-label-lg text-on-surface-variant">Customer ID</th>
+<th class="p-3 font-label-lg text-label-lg text-on-surface-variant">Category</th>
+<th class="p-3 font-label-lg text-label-lg text-on-surface-variant">Reason</th>
+</tr>
+</thead>
+<tbody id="recentRegistrationsBody" class="font-body-sm text-body-sm text-on-surface divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-3">CUS-8921</td>
+<td class="p-3"><span class="bg-primary-fixed text-on-primary-fixed-variant px-2 py-1 rounded-md text-xs font-semibold">Member</span></td>
+<td class="p-3">SST Enquiry</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-3">EMP-4432</td>
+<td class="p-3"><span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-1 rounded-md text-xs font-semibold">Employer</span></td>
+<td class="p-3">Contribution Issue</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-3">CUS-8922</td>
+<td class="p-3"><span class="bg-primary-fixed text-on-primary-fixed-variant px-2 py-1 rounded-md text-xs font-semibold">Member</span></td>
+<td class="p-3">Withdrawal</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-3">CORP-109</td>
+<td class="p-3"><span class="bg-outline-variant text-on-surface px-2 py-1 rounded-md text-xs font-semibold">Corporate</span></td>
+<td class="p-3">Registration</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-3">CUS-8923</td>
+<td class="p-3"><span class="bg-primary-fixed text-on-primary-fixed-variant px-2 py-1 rounded-md text-xs font-semibold">Member</span></td>
+<td class="p-3">Profile Update</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-highest dark:bg-inverse-surface border-t border-outline-variant mt-auto">
+<div class="w-full py-stack-lg px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-base max-w-container-max-width mx-auto">
+<div class="font-headline-md text-headline-md font-bold text-on-surface text-center md:text-left">
+                EPF Branch Portal
+            </div>
+<nav class="flex flex-wrap justify-center gap-4">
+<a class="text-on-surface-variant hover:text-on-surface hover:underline transition-all font-label-sm text-label-sm" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:underline transition-all font-label-sm text-label-sm" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:underline transition-all font-label-sm text-label-sm" href="#">Contact Us</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:underline transition-all font-label-sm text-label-sm" href="#">Branch Locator</a>
+</nav>
+<div class="text-on-surface dark:text-inverse-on-surface font-body-sm text-body-sm opacity-90 text-center md:text-right">
+                © 2024 Employees Provident Fund. All Rights Reserved.
+            </div>
+</div>
+</footer>
+<script>
+const dashboardSnapshots = [
+    {
+        registrations: 1248,
+        trend: "+12%",
+        branches: [
+            ["Kuala Lumpur (Main)", 1248],
+            ["Petaling Jaya", 942],
+            ["Shah Alam", 815]
+        ],
+        attendance: { sst: 320, mip: 180, eip: 120, service: 240 },
+        line: [80, 50, 40, 45, 50],
+        recent: [
+            ["CUS-8921", "Member", "SST Enquiry"],
+            ["EMP-4432", "Employer", "Contribution Issue"],
+            ["CUS-8922", "Member", "Withdrawal"],
+            ["CORP-109", "Corporate", "Registration"],
+            ["CUS-8923", "Member", "Profile Update"]
+        ]
+    },
+    {
+        registrations: 1326,
+        trend: "+15%",
+        branches: [
+            ["Kuala Lumpur (Main)", 1326],
+            ["Petaling Jaya", 984],
+            ["Johor Bahru", 872]
+        ],
+        attendance: { sst: 350, mip: 205, eip: 144, service: 276 },
+        line: [74, 56, 34, 39, 42],
+        recent: [
+            ["CUS-8930", "Member", "Account Statement"],
+            ["EMP-4440", "Employer", "Contribution Issue"],
+            ["CUS-8931", "Member", "Profile Update"],
+            ["CUS-8932", "Member", "SST Enquiry"],
+            ["CORP-114", "Corporate", "Registration"]
+        ]
+    },
+    {
+        registrations: 1189,
+        trend: "+9%",
+        branches: [
+            ["Petaling Jaya", 1012],
+            ["Kuala Lumpur (Main)", 975],
+            ["Shah Alam", 804]
+        ],
+        attendance: { sst: 288, mip: 214, eip: 138, service: 198 },
+        line: [82, 62, 48, 51, 57],
+        recent: [
+            ["EMP-4445", "Employer", "Payment Assistance"],
+            ["CUS-8938", "Member", "Withdrawal"],
+            ["CUS-8939", "Member", "SST Enquiry"],
+            ["CORP-118", "Corporate", "Registration"],
+            ["CUS-8940", "Member", "Profile Update"]
+        ]
+    }
+];
+
+const profileSnapshots = [
+    {
+        name: "Aina Rahman",
+        staffId: "EPF-08421",
+        branch: "Kuala Lumpur Main",
+        shift: "08:00 - 17:00",
+        role: "Registration Desk",
+        lastLogin: "Last login: 08:12 AM",
+        status: "Online"
+    },
+    {
+        name: "Amir Hakim",
+        staffId: "EPF-09118",
+        branch: "Petaling Jaya",
+        shift: "09:00 - 18:00",
+        role: "Member Services",
+        lastLogin: "Last login: 09:01 AM",
+        status: "On counter"
+    },
+    {
+        name: "Anis Farhana",
+        staffId: "EPF-07734",
+        branch: "Shah Alam",
+        shift: "10:00 - 19:00",
+        role: "Employer Support",
+        lastLogin: "Last login: 10:16 AM",
+        status: "Online"
+    }
+];
+
+let activeSnapshotIndex = 0;
+let isRefreshing = false;
+
+const formatNumber = (value) => new Intl.NumberFormat("en-MY").format(value);
+const currentTimeLabel = () => new Date().toLocaleTimeString("en-MY", {
+    hour: "2-digit",
+    minute: "2-digit"
+});
+
+function categoryBadge(category) {
+    const badgeClasses = {
+        Member: "bg-primary-fixed text-on-primary-fixed-variant",
+        Employer: "bg-tertiary-fixed text-on-tertiary-fixed-variant",
+        Corporate: "bg-outline-variant text-on-surface"
+    };
+
+    return `<span class="${badgeClasses[category] || badgeClasses.Member} px-2 py-1 rounded-md text-xs font-semibold">${category}</span>`;
+}
+
+function updateTopBranches(branches) {
+    const topBranchesBody = document.getElementById("topBranchesBody");
+    topBranchesBody.innerHTML = branches.map(([name, volume]) => `
+        <tr class="hover:bg-surface-container-low transition-colors">
+            <td class="p-3 font-medium">${name}</td>
+            <td class="p-3">${formatNumber(volume)}</td>
+        </tr>
+    `).join("");
+}
+
+function updateRecentRegistrations(recentRegistrations) {
+    const recentRegistrationsBody = document.getElementById("recentRegistrationsBody");
+    recentRegistrationsBody.innerHTML = recentRegistrations.map(([id, category, reason]) => `
+        <tr class="hover:bg-surface-container-low transition-colors">
+            <td class="p-3">${id}</td>
+            <td class="p-3">${categoryBadge(category)}</td>
+            <td class="p-3">${reason}</td>
+        </tr>
+    `).join("");
+}
+
+function updateAttendanceBars(attendance) {
+    const maxValue = 400;
+    const barMap = [
+        ["barSst", "barSstValue", attendance.sst],
+        ["barMip", "barMipValue", attendance.mip],
+        ["barEip", "barEipValue", attendance.eip],
+        ["barService", "barServiceValue", attendance.service]
+    ];
+
+    barMap.forEach(([barId, valueId, value]) => {
+        document.getElementById(barId).style.height = `${Math.max((value / maxValue) * 100, 8)}%`;
+        document.getElementById(valueId).textContent = formatNumber(value);
+    });
+}
+
+function updateVolumeLine(points) {
+    const [first, second, third, fourth, fifth] = points;
+    const linePath = `M0,${first} C20,${second} 30,${third} 50,${third} C70,${fourth} 80,${fourth} 100,${fifth}`;
+    document.getElementById("volumeLine").setAttribute("d", linePath);
+    document.getElementById("volumeArea").setAttribute("d", `M0,100 L0,${first} C20,${second} 30,${third} 50,${third} C70,${fourth} 80,${fourth} 100,${fifth} L100,100 Z`);
+
+    document.querySelectorAll(".volume-point").forEach((point, index) => {
+        point.setAttribute("cy", points[index]);
+    });
+}
+
+function updateProfile(profile) {
+    const initial = profile.name.charAt(0);
+    document.getElementById("profileButton").textContent = initial;
+    document.querySelector("#profileMenu .w-10").textContent = initial;
+    document.getElementById("profileName").textContent = profile.name;
+    document.getElementById("profileStaffId").textContent = profile.staffId;
+    document.getElementById("profileBranch").textContent = profile.branch;
+    document.getElementById("profileShift").textContent = profile.shift;
+    document.getElementById("profileRole").textContent = profile.role;
+    document.getElementById("profileLastLogin").textContent = profile.lastLogin;
+    document.getElementById("profileStatus").lastChild.textContent = ` ${profile.status}`;
+}
+
+function applySnapshot(snapshotIndex) {
+    const snapshot = dashboardSnapshots[snapshotIndex];
+    document.getElementById("totalRegistrations").textContent = formatNumber(snapshot.registrations);
+    document.getElementById("registrationTrendValue").textContent = snapshot.trend;
+    document.getElementById("lastUpdated").textContent = `Last updated: ${currentTimeLabel()}`;
+    updateTopBranches(snapshot.branches);
+    updateRecentRegistrations(snapshot.recent);
+    updateAttendanceBars(snapshot.attendance);
+    updateVolumeLine(snapshot.line);
+    updateProfile(profileSnapshots[snapshotIndex % profileSnapshots.length]);
+}
+
+function showRefreshToast() {
+    const refreshToast = document.getElementById("refreshToast");
+    refreshToast.hidden = false;
+    window.clearTimeout(showRefreshToast.timeoutId);
+    showRefreshToast.timeoutId = window.setTimeout(() => {
+        refreshToast.hidden = true;
+    }, 1800);
+}
+
+function setRefreshState(isLoading) {
+    const refreshButton = document.getElementById("refreshDataButton");
+    const refreshIcon = document.getElementById("refreshIcon");
+    const refreshButtonText = document.getElementById("refreshButtonText");
+
+    refreshButton.disabled = isLoading;
+    refreshIcon.classList.toggle("spin-on-refresh", isLoading);
+    refreshButtonText.textContent = isLoading ? "Refreshing..." : "Refresh Data";
+}
+
+function refreshDashboardData() {
+    if (isRefreshing) {
+        return;
+    }
+
+    isRefreshing = true;
+    setRefreshState(true);
+
+    window.setTimeout(() => {
+        activeSnapshotIndex = (activeSnapshotIndex + 1) % dashboardSnapshots.length;
+        applySnapshot(activeSnapshotIndex);
+        setRefreshState(false);
+        showRefreshToast();
+        isRefreshing = false;
+    }, 650);
+}
+
+function toggleProfileMenu() {
+    const profileButton = document.getElementById("profileButton");
+    const profileMenu = document.getElementById("profileMenu");
+    const willOpen = profileMenu.hidden;
+
+    profileMenu.hidden = !willOpen;
+    profileButton.setAttribute("aria-expanded", String(willOpen));
+}
+
+document.getElementById("refreshDataButton").addEventListener("click", refreshDashboardData);
+document.getElementById("profileButton").addEventListener("click", (event) => {
+    event.stopPropagation();
+    toggleProfileMenu();
+});
+
+document.addEventListener("click", (event) => {
+    const profileMenu = document.getElementById("profileMenu");
+    const profileButton = document.getElementById("profileButton");
+
+    if (!profileMenu.hidden && !profileMenu.contains(event.target) && !profileButton.contains(event.target)) {
+        profileMenu.hidden = true;
+        profileButton.setAttribute("aria-expanded", "false");
+    }
+});
+
+document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") {
+        return;
+    }
+
+    document.getElementById("profileMenu").hidden = true;
+    document.getElementById("profileButton").setAttribute("aria-expanded", "false");
+});
+</script>
+</body></html>
+ 
