@@ -1,7 +1,7 @@
 <!DOCTYPE html><html class="light" lang="en"><svg class="inline-defs-container" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></svg><head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>EPF Branch Tracker - Dashboard</title>
+<title>EPF Branch Portal - Dashboard</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect">
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
@@ -190,7 +190,8 @@
         }
         .profile-menu[hidden],
         .refresh-toast[hidden],
-        #staffInfoModal[hidden] {
+        #staffInfoModal[hidden],
+        #registrationInfoModal[hidden] {
             display: none;
         }
       </style>
@@ -646,11 +647,12 @@
 <button class="text-primary font-label-lg text-label-lg hover:underline text-left sm:text-right">View All</button>
 </div>
 <div class="overflow-x-auto">
-<table class="w-full min-w-[560px] text-left border-collapse">
+<table class="w-full min-w-[680px] text-left border-collapse">
 <thead>
 <tr class="bg-surface-container-highest border-b border-outline-variant">
 <th class="p-3 font-label-lg text-label-lg text-on-surface-variant">Customer ID</th>
 <th class="p-3 font-label-lg text-label-lg text-on-surface-variant">Category</th>
+<th class="p-3 font-label-lg text-label-lg text-on-surface-variant">Branch Location</th>
 <th class="p-3 font-label-lg text-label-lg text-on-surface-variant">Reason</th>
 </tr>
 </thead>
@@ -658,30 +660,72 @@
 <tr class="hover:bg-surface-container-low transition-colors">
 <td class="p-3">CUS-8921</td>
 <td class="p-3"><span class="bg-primary-fixed text-on-primary-fixed-variant px-2 py-1 rounded-md text-xs font-semibold">Member</span></td>
+<td class="p-3">Kuala Lumpur Main</td>
 <td class="p-3">SST Enquiry</td>
 </tr>
 <tr class="hover:bg-surface-container-low transition-colors">
 <td class="p-3">EMP-4432</td>
 <td class="p-3"><span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-1 rounded-md text-xs font-semibold">Employer</span></td>
+<td class="p-3">Petaling Jaya</td>
 <td class="p-3">Contribution Issue</td>
 </tr>
 <tr class="hover:bg-surface-container-low transition-colors">
 <td class="p-3">CUS-8922</td>
 <td class="p-3"><span class="bg-primary-fixed text-on-primary-fixed-variant px-2 py-1 rounded-md text-xs font-semibold">Member</span></td>
+<td class="p-3">Shah Alam</td>
 <td class="p-3">Withdrawal</td>
 </tr>
 <tr class="hover:bg-surface-container-low transition-colors">
 <td class="p-3">CORP-109</td>
 <td class="p-3"><span class="bg-outline-variant text-on-surface px-2 py-1 rounded-md text-xs font-semibold">Corporate</span></td>
+<td class="p-3">Johor Bahru</td>
 <td class="p-3">Registration</td>
 </tr>
 <tr class="hover:bg-surface-container-low transition-colors">
 <td class="p-3">CUS-8923</td>
 <td class="p-3"><span class="bg-primary-fixed text-on-primary-fixed-variant px-2 py-1 rounded-md text-xs font-semibold">Member</span></td>
+<td class="p-3">Klang</td>
 <td class="p-3">Profile Update</td>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+</div>
+<div id="registrationInfoModal" class="fixed inset-0 z-[60] bg-black/40 px-4 py-6 sm:py-10 flex items-center justify-center" hidden>
+<div class="w-full max-w-xl bg-surface-container-lowest border border-outline-variant rounded-xl shadow-xl overflow-hidden" role="dialog" aria-modal="true" aria-labelledby="registrationInfoCustomerId">
+<div class="p-4 bg-primary text-on-primary flex items-start justify-between gap-4">
+<div class="min-w-0">
+<p class="font-label-sm text-label-sm opacity-90">Registration Detail</p>
+<h3 id="registrationInfoCustomerId" class="font-headline-md text-headline-md truncate">CUS-8921</h3>
+</div>
+<button id="closeRegistrationInfoButton" class="p-2 rounded-lg hover:bg-on-primary/10 transition-colors" type="button" aria-label="Close registration detail">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Customer Type</p>
+<p id="registrationInfoCategory" class="font-label-lg text-label-lg text-on-surface">Member</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Visit Reason</p>
+<p id="registrationInfoReason" class="font-label-lg text-label-lg text-on-surface">SST Enquiry</p>
+</div>
+<div class="sm:col-span-2 border border-outline-variant rounded-lg p-3 bg-surface-container-low">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-3">Assisted By</p>
+<div class="flex items-center gap-3">
+<div id="registrationInfoStaffInitials" class="w-11 h-11 rounded-full bg-primary-fixed text-on-primary-fixed-variant flex items-center justify-center font-label-lg text-label-lg shrink-0">AR</div>
+<div class="min-w-0">
+<p id="registrationInfoStaffName" class="font-label-lg text-label-lg text-on-surface truncate">Aina Rahman</p>
+<p id="registrationInfoStaffId" class="font-label-sm text-label-sm text-on-surface-variant">EPF-08421</p>
+</div>
+</div>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Branch Location</p>
+<p id="registrationInfoBranchLocation" class="font-label-lg text-label-lg text-on-surface">Kuala Lumpur Main</p>
+</div>
 </div>
 </div>
 </div>
@@ -690,7 +734,7 @@
 <footer class="bg-surface-container-highest dark:bg-inverse-surface border-t border-outline-variant mt-auto">
 <div class="w-full py-stack-md md:py-stack-lg px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-stack-sm md:gap-base max-w-container-max-width mx-auto">
 <div class="font-headline-md text-headline-md font-bold text-on-surface text-center md:text-left">
-                EPF Branch Tracker
+                EPF Branch Portal
             </div>
 <nav class="flex flex-wrap justify-center gap-4">
 <a class="text-on-surface-variant hover:text-on-surface hover:underline transition-all font-label-sm text-label-sm" href="#">Privacy Policy</a>
@@ -716,11 +760,11 @@ const dashboardSnapshots = [
         attendance: { member: 872, employer: 280, corporate: 96 },
         line: [42, 92, 128, 114, 132],
         recent: [
-            ["CUS-8921", "Member", "SST Enquiry"],
-            ["EMP-4432", "Employer", "Contribution Issue"],
-            ["CUS-8922", "Member", "Withdrawal"],
-            ["CORP-109", "Corporate", "Registration"],
-            ["CUS-8923", "Member", "Profile Update"]
+            ["CUS-8921", "Member", "SST Enquiry", "Kuala Lumpur Main"],
+            ["EMP-4432", "Employer", "Contribution Issue", "Petaling Jaya"],
+            ["CUS-8922", "Member", "Withdrawal", "Shah Alam"],
+            ["CORP-109", "Corporate", "Registration", "Johor Bahru"],
+            ["CUS-8923", "Member", "Profile Update", "Klang"]
         ]
     },
     {
@@ -734,11 +778,11 @@ const dashboardSnapshots = [
         attendance: { member: 918, employer: 304, corporate: 104 },
         line: [48, 88, 136, 126, 142],
         recent: [
-            ["CUS-8930", "Member", "Account Statement"],
-            ["EMP-4440", "Employer", "Contribution Issue"],
-            ["CUS-8931", "Member", "Profile Update"],
-            ["CUS-8932", "Member", "SST Enquiry"],
-            ["CORP-114", "Corporate", "Registration"]
+            ["CUS-8930", "Member", "Account Statement", "Petaling Jaya"],
+            ["EMP-4440", "Employer", "Contribution Issue", "Kuala Lumpur Main"],
+            ["CUS-8931", "Member", "Profile Update", "Johor Bahru"],
+            ["CUS-8932", "Member", "SST Enquiry", "Shah Alam"],
+            ["CORP-114", "Corporate", "Registration", "Klang"]
         ]
     },
     {
@@ -752,11 +796,11 @@ const dashboardSnapshots = [
         attendance: { member: 779, employer: 322, corporate: 88 },
         line: [36, 74, 108, 98, 118],
         recent: [
-            ["EMP-4445", "Employer", "Payment Assistance"],
-            ["CUS-8938", "Member", "Withdrawal"],
-            ["CUS-8939", "Member", "SST Enquiry"],
-            ["CORP-118", "Corporate", "Registration"],
-            ["CUS-8940", "Member", "Profile Update"]
+            ["EMP-4445", "Employer", "Payment Assistance", "Shah Alam"],
+            ["CUS-8938", "Member", "Withdrawal", "Kuala Lumpur Main"],
+            ["CUS-8939", "Member", "SST Enquiry", "Petaling Jaya"],
+            ["CORP-118", "Corporate", "Registration", "Johor Bahru"],
+            ["CUS-8940", "Member", "Profile Update", "Klang"]
         ]
     }
 ];
@@ -789,6 +833,14 @@ const profileSnapshots = [
         lastLogin: "Last login: 10:16 AM",
         status: "Online"
     }
+];
+
+const registrationStaffAssignments = [
+    { name: "Aina Rahman", initials: "AR", staffId: "EPF-08421" },
+    { name: "Amir Hakim", initials: "AH", staffId: "EPF-09118" },
+    { name: "Anis Farhana", initials: "AF", staffId: "EPF-07734" },
+    { name: "Siti Leesa", initials: "SL", staffId: "EPF-08620" },
+    { name: "Daniel Tan", initials: "DT", staffId: "EPF-08109" }
 ];
 
 const staffRankingData = {
@@ -1075,13 +1127,57 @@ function updateTopBranches(branches) {
 
 function updateRecentRegistrations(recentRegistrations) {
     const recentRegistrationsBody = document.getElementById("recentRegistrationsBody");
-    recentRegistrationsBody.innerHTML = recentRegistrations.map(([id, category, reason]) => `
-        <tr class="hover:bg-surface-container-low transition-colors">
+    recentRegistrationsBody.innerHTML = recentRegistrations.map(([id, category, reason, branchLocation], index) => `
+        <tr class="recent-registration-row hover:bg-surface-container-low transition-colors cursor-pointer focus:bg-surface-container-low focus:outline-none" tabindex="0" role="button" data-index="${index}" aria-label="Open registration detail for ${id}">
             <td class="p-3">${id}</td>
             <td class="p-3">${categoryBadge(category)}</td>
-            <td class="p-3">${reason}</td>
+            <td class="p-3">${branchLocation}</td>
+            <td class="p-3">
+                <div class="flex items-center justify-between gap-3">
+                    <span>${reason}</span>
+                    <span class="material-symbols-outlined text-primary opacity-70" style="font-size: 18px;">chevron_right</span>
+                </div>
+            </td>
         </tr>
     `).join("");
+
+    document.querySelectorAll(".recent-registration-row").forEach((row) => {
+        const openSelectedRegistration = () => {
+            openRegistrationInfo(recentRegistrations[Number(row.dataset.index)], Number(row.dataset.index));
+        };
+
+        row.addEventListener("click", openSelectedRegistration);
+        row.addEventListener("keydown", (event) => {
+            if (event.key !== "Enter" && event.key !== " ") {
+                return;
+            }
+
+            event.preventDefault();
+            openSelectedRegistration();
+        });
+    });
+}
+
+function openRegistrationInfo(registration, index) {
+    if (!registration) {
+        return;
+    }
+
+    const [customerId, category, reason, branchLocation] = registration;
+    const staff = registrationStaffAssignments[index % registrationStaffAssignments.length];
+
+    document.getElementById("registrationInfoCustomerId").textContent = customerId;
+    document.getElementById("registrationInfoCategory").textContent = category;
+    document.getElementById("registrationInfoReason").textContent = reason;
+    document.getElementById("registrationInfoStaffInitials").textContent = staff.initials;
+    document.getElementById("registrationInfoStaffName").textContent = staff.name;
+    document.getElementById("registrationInfoStaffId").textContent = staff.staffId;
+    document.getElementById("registrationInfoBranchLocation").textContent = branchLocation;
+    document.getElementById("registrationInfoModal").hidden = false;
+}
+
+function closeRegistrationInfo() {
+    document.getElementById("registrationInfoModal").hidden = true;
 }
 
 function updateAttendanceBars(attendance) {
@@ -1528,6 +1624,12 @@ document.getElementById("staffInfoModal").addEventListener("click", (event) => {
         closeStaffInfo();
     }
 });
+document.getElementById("closeRegistrationInfoButton").addEventListener("click", closeRegistrationInfo);
+document.getElementById("registrationInfoModal").addEventListener("click", (event) => {
+    if (event.target.id === "registrationInfoModal") {
+        closeRegistrationInfo();
+    }
+});
 
 document.addEventListener("click", (event) => {
     const profileMenu = document.getElementById("profileMenu");
@@ -1547,6 +1649,7 @@ document.addEventListener("keydown", (event) => {
     document.getElementById("profileMenu").hidden = true;
     document.getElementById("profileButton").setAttribute("aria-expanded", "false");
     closeStaffInfo();
+    closeRegistrationInfo();
 });
 
 startLiveActivitySimulation();
