@@ -188,39 +188,35 @@
         .material-symbols-outlined.fill {
             font-variation-settings: 'FILL' 1;
         }
-        .spin-on-refresh {
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
         .profile-menu[hidden],
-        .refresh-toast[hidden] {
+        .refresh-toast[hidden],
+        #staffInfoModal[hidden] {
             display: none;
         }
       </style>
 </head>
-<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col">
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col overflow-x-hidden">
 <!-- TopAppBar -->
 <header class="bg-surface border-b border-outline-variant w-full z-50 sticky top-0">
-<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop max-w-container-max-width mx-auto h-16">
-<div class="flex items-center gap-3 md:gap-gutter min-w-0">
-<img alt="EPF Logo" class="h-8 w-auto object-contain shrink-0" src="./epf-big-logo.png">
-<h1 class="text-headline-md font-headline-xl font-bold text-primary">EPF Branch Portal</h1>
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop max-w-container-max-width mx-auto h-16 gap-2">
+<div class="flex items-center gap-2 sm:gap-3 md:gap-gutter min-w-0">
+<img alt="EPF Logo" class="h-7 sm:h-8 w-auto object-contain shrink-0" src="./epf-big-logo.png">
+<div class="min-w-0">
+<h1 class="text-body-md sm:text-headline-md font-headline-xl font-bold text-primary leading-tight truncate">PRISM</h1>
+<p class="hidden md:block font-label-sm text-label-sm text-on-surface-variant truncate">Portal for Registration, Insights &amp; Service Management</p>
 </div>
-<div class="flex items-center gap-base relative">
-<button aria-label="Help" class="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 opacity-80">
+</div>
+<div class="flex items-center gap-1 sm:gap-base relative shrink-0">
+<button aria-label="Help" class="hidden sm:flex p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 opacity-80">
 <span class="material-symbols-outlined">help</span>
 </button>
-<button aria-label="Language" class="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 opacity-80">
+<button aria-label="Language" class="hidden sm:flex p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 opacity-80">
 <span class="material-symbols-outlined">language</span>
 </button>
 <button id="profileButton" aria-expanded="false" aria-controls="profileMenu" class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-label-lg text-label-lg ml-2 ring-0 hover:ring-2 hover:ring-primary-fixed-dim focus:outline-none focus:ring-2 focus:ring-primary-fixed-dim transition-all">
                     A
                 </button>
-<div id="profileMenu" class="profile-menu absolute right-0 top-12 w-80 max-w-[calc(100vw-32px)] bg-surface-container-lowest border border-outline-variant rounded-xl shadow-lg overflow-hidden z-50" hidden>
+<div id="profileMenu" class="profile-menu absolute right-0 top-12 w-[calc(100vw-32px)] sm:w-80 max-w-[calc(100vw-32px)] bg-surface-container-lowest border border-outline-variant rounded-xl shadow-lg overflow-hidden z-50" hidden>
 <div class="p-4 bg-primary text-on-primary">
 <div class="flex items-center gap-3">
 <div class="w-10 h-10 rounded-full bg-on-primary text-primary flex items-center justify-center font-bold">A</div>
@@ -230,7 +226,7 @@
 </div>
 </div>
 </div>
-<div class="p-4 grid grid-cols-2 gap-3 text-body-sm">
+<div class="p-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-body-sm">
 <div>
 <p class="font-label-sm text-label-sm text-on-surface-variant">Staff ID</p>
 <p id="profileStaffId" class="font-label-lg text-label-lg text-on-surface">EPF-08421</p>
@@ -248,7 +244,7 @@
 <p id="profileRole" class="font-label-lg text-label-lg text-on-surface">Registration Desk</p>
 </div>
 </div>
-<div class="px-4 pb-4 flex items-center justify-between">
+<div class="px-4 pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
 <span id="profileStatus" class="inline-flex items-center gap-1 text-green-700 bg-green-50 border border-green-100 px-2 py-1 rounded-md font-label-sm text-label-sm">
 <span class="w-2 h-2 bg-green-600 rounded-full"></span>
                     Online
@@ -260,32 +256,40 @@
 </div>
 </header>
 <!-- Main Content -->
-<main class="flex-grow w-full max-w-container-max-width mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col gap-gutter">
+<main class="flex-grow w-full max-w-container-max-width mx-auto px-margin-mobile md:px-margin-desktop py-stack-md md:py-stack-lg flex flex-col gap-stack-md md:gap-gutter">
 <!-- Dashboard Header -->
 <div class="flex flex-col sm:flex-row justify-between sm:items-end gap-4 mb-stack-sm">
 <div>
 <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Branch Overview</h2>
 <p class="font-body-md text-body-md text-on-surface-variant mt-1">Real-time visitor and staff metrics for today.</p>
-<p id="lastUpdated" class="font-label-sm text-label-sm text-on-surface-variant mt-2">Last updated: 04:28 PM</p>
+<div class="flex flex-wrap items-center gap-2 mt-2">
+<p id="lastUpdated" class="font-label-sm text-label-sm text-on-surface-variant">Last updated: 04:28 PM</p>
+<span class="inline-flex items-center gap-1 text-green-700 bg-green-50 border border-green-100 px-2 py-0.5 rounded-md font-label-sm text-label-sm">
+<span class="w-2 h-2 bg-green-600 rounded-full"></span>
+                    Live Update
+                </span>
 </div>
-<div class="flex flex-wrap gap-2 justify-end">
-<button class="flex items-center gap-2 px-4 py-2 rounded-lg border border-outline-variant text-primary font-label-lg text-label-lg hover:bg-surface-container transition-colors">
+</div>
+<div class="grid grid-cols-1 sm:flex sm:flex-wrap gap-2 sm:justify-end w-full sm:w-auto">
+<button class="flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-outline-variant text-primary font-label-lg text-label-lg hover:bg-surface-container transition-colors">
 <span class="material-symbols-outlined" style="font-size: 18px;">download</span>
                     Export
                 </button>
-<button id="refreshDataButton" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-on-primary font-label-lg text-label-lg hover:opacity-90 disabled:opacity-70 disabled:cursor-wait transition-opacity" type="button">
+<!--
+<button id="refreshDataButton" class="flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-primary text-on-primary font-label-lg text-label-lg hover:opacity-90 transition-opacity" title="Placeholder only. Demo data updates automatically." type="button">
 <span id="refreshIcon" class="material-symbols-outlined" style="font-size: 18px;">refresh</span>
 <span id="refreshButtonText">
                     Refresh Data
 </span>
                 </button>
+-->
 </div>
 </div>
-<div id="refreshToast" class="refresh-toast fixed right-4 top-20 bg-inverse-surface text-inverse-on-surface px-4 py-3 rounded-lg shadow-lg z-50 font-body-sm text-body-sm" hidden>
+<div id="refreshToast" class="refresh-toast fixed left-4 right-4 sm:left-auto sm:right-4 top-20 bg-inverse-surface text-inverse-on-surface px-4 py-3 rounded-lg shadow-lg z-50 font-body-sm text-body-sm" hidden>
     Dashboard data refreshed.
 </div>
 <!-- Summary Cards Bento Grid -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md md:gap-gutter">
 <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col gap-2">
 <div class="flex justify-between items-start">
 <p class="font-label-lg text-label-lg text-on-surface-variant">Total Branches</p>
@@ -293,8 +297,8 @@
 <span class="material-symbols-outlined" style="font-size: 20px;">domain</span>
 </div>
 </div>
-<div class="flex items-end gap-3 mt-2">
-<h3 class="font-headline-xl text-headline-xl text-primary m-0">70</h3>
+<div class="flex flex-wrap items-end gap-3 mt-2">
+<h3 class="font-headline-xl text-headline-lg md:text-headline-xl text-primary m-0">70</h3>
 <span class="font-label-sm text-label-sm text-on-surface-variant mb-1">Active nationwide</span>
 </div>
 </div>
@@ -306,8 +310,8 @@
 <span class="material-symbols-outlined" style="font-size: 20px;">groups</span>
 </div>
 </div>
-<div class="flex items-end gap-3 mt-2">
-<h3 id="totalRegistrations" class="font-headline-xl text-headline-xl text-primary m-0">1,248</h3>
+<div class="flex flex-wrap items-end gap-3 mt-2">
+<h3 id="totalRegistrations" class="font-headline-xl text-headline-lg md:text-headline-xl text-primary m-0">1,248</h3>
 <span id="registrationTrend" class="font-label-sm text-label-sm text-green-600 bg-green-50 px-2 py-0.5 rounded flex items-center mb-1">
 <span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> <span id="registrationTrendValue">+12%</span>
                     </span>
@@ -315,12 +319,12 @@
 </div>
 </div>
 <section class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
-<div class="p-4 bg-surface-container-low border-b border-outline-variant flex justify-between items-center">
+<div class="p-4 bg-surface-container-low border-b border-outline-variant flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
 <h3 class="font-headline-md text-headline-md text-on-surface">Top Branches by Volume</h3>
-<button class="text-primary font-label-lg text-label-lg hover:underline">View Analytics</button>
+<button class="text-primary font-label-lg text-label-lg hover:underline text-left sm:text-right">View Analytics</button>
 </div>
 <div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
+<table class="w-full min-w-[420px] text-left border-collapse">
 <thead>
 <tr class="bg-surface-container-highest border-b border-outline-variant">
 <th class="p-3 font-label-lg text-label-lg text-on-surface-variant">Branch Name</th>
@@ -344,12 +348,83 @@
 </table>
 </div>
 </section>
+<!-- Branch Locator & Directory -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
+<div class="p-4 bg-surface-container-low border-b border-outline-variant flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Branch Locator &amp; Directory</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Demo locator with searchable branch list and status pins.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-2 w-full lg:w-auto">
+<div class="relative">
+<input id="branchSearchInput" class="w-full pl-9 pr-3 py-2 rounded-lg border border-outline-variant bg-surface-container-lowest font-body-sm text-body-sm focus:ring-primary focus:border-primary" placeholder="Search branch..." type="search">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-size: 16px;">search</span>
+</div>
+<select id="branchRegionFilter" class="w-full px-3 py-2 rounded-lg border border-outline-variant bg-surface-container-lowest font-body-sm text-body-sm focus:ring-primary focus:border-primary">
+<option value="all">All Regions</option>
+<option value="Central">Central</option>
+<option value="Northern">Northern</option>
+<option value="Southern">Southern</option>
+<option value="East Coast">East Coast</option>
+<option value="Sabah">Sabah</option>
+<option value="Sarawak">Sarawak</option>
+<option value="Labuan">Labuan</option>
+</select>
+<select id="branchStatusFilter" class="w-full px-3 py-2 rounded-lg border border-outline-variant bg-surface-container-lowest font-body-sm text-body-sm focus:ring-primary focus:border-primary">
+<option value="all">All Statuses</option>
+<option value="Active">Active</option>
+<option value="Peak">Peak</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-0">
+<div class="xl:col-span-2 p-4">
+<div class="relative aspect-[2048/930] rounded-lg border border-outline-variant bg-white overflow-hidden">
+<img alt="Malaysia branch map" class="absolute inset-0 w-full h-full object-fill" src="./malaysia-branch-map.png">
+<div id="branchMapPins" class="absolute inset-0"></div>
+<div class="absolute left-4 bottom-4 bg-surface-container-lowest/95 border border-outline-variant rounded-md px-3 py-2 shadow-sm">
+<div class="flex items-center gap-3 font-label-sm text-label-sm text-on-surface-variant">
+<span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-primary"></span> Active</span>
+<span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-secondary"></span> Peak</span>
+</div>
+</div>
+</div>
+</div>
+<aside class="border-t xl:border-t-0 xl:border-l border-outline-variant p-4 flex flex-col min-w-0">
+<div class="flex items-center justify-between mb-3">
+<h4 id="branchMapCount" class="font-label-lg text-label-lg text-on-surface">15 Branches</h4>
+<span id="selectedBranchStatus" class="font-label-sm text-label-sm text-secondary bg-secondary-fixed px-2 py-1 rounded-md">Peak</span>
+</div>
+<div id="branchLocationList" class="max-h-[420px] overflow-y-auto divide-y divide-outline-variant border border-outline-variant rounded-lg bg-surface-container-lowest"></div>
+</aside>
+</div>
+<div class="border-t border-outline-variant p-4 bg-surface-container-low flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Selected Branch</p>
+<h4 id="selectedBranchName" class="font-label-lg text-label-lg text-on-surface">Kuala Lumpur Main</h4>
+</div>
+<div class="grid grid-cols-3 gap-4">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Region</p>
+<p id="selectedBranchRegion" class="font-label-lg text-label-lg text-on-surface">Central</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Today</p>
+<p id="selectedBranchVisitors" class="font-label-lg text-label-lg text-primary">1,840 visitors</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Code</p>
+<p id="selectedBranchCode" class="font-label-lg text-label-lg text-on-surface">KUL</p>
+</div>
+</div>
+</div>
+</section>
 <!-- Charts Section -->
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
-<!-- Bar Chart: Reason for Attendance -->
-<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col h-[400px]">
-<h3 class="font-headline-md text-headline-md text-on-surface mb-6">Reason for Attendance</h3>
-<div class="flex-grow flex items-end gap-4 relative">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-stack-md md:gap-gutter">
+<!-- Bar Chart: Customer Type -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 sm:p-6 flex flex-col h-[320px] sm:h-[360px] lg:h-[400px]">
+<h3 class="font-headline-md text-body-lg sm:text-headline-md text-on-surface mb-4 sm:mb-6">Customer Type</h3>
+<div class="flex-grow flex items-end gap-2 sm:gap-4 relative min-w-0">
 <!-- Y Axis Labels (Mock) -->
 <div class="absolute left-0 top-0 bottom-8 flex flex-col justify-between text-label-sm text-on-surface-variant font-label-sm">
 <span>400</span>
@@ -359,87 +434,206 @@
 <span>0</span>
 </div>
 <!-- Chart Area -->
-<div class="ml-8 flex-grow flex items-end justify-around h-full border-b border-l border-outline-variant pb-2 pl-2">
+<div class="ml-7 sm:ml-8 flex-grow flex items-end justify-around h-full border-b border-l border-outline-variant pb-2 pl-2 min-w-0">
 <!-- Bar 1 -->
-<div class="flex flex-col items-center gap-2 w-1/5 group">
-<div id="barSst" class="w-full bg-primary rounded-t-sm h-[80%] group-hover:bg-primary-fixed-variant transition-all duration-300 relative">
-<div id="barSstValue" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">320</div>
+<div class="flex flex-col items-center justify-end gap-2 w-1/5 h-full min-w-0 group">
+<div id="barSst" class="w-full min-h-6 bg-primary rounded-t-sm group-hover:bg-primary-fixed-variant transition-all duration-300 relative" style="height: 80%;">
+<div id="barSstValue" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm py-1 px-2 rounded opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">820</div>
 </div>
-<span class="font-label-sm text-label-sm text-on-surface-variant text-center leading-tight">SST</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-center leading-tight">Member</span>
 </div>
 <!-- Bar 2 -->
-<div class="flex flex-col items-center gap-2 w-1/5 group">
-<div id="barMip" class="w-full bg-tertiary rounded-t-sm h-[45%] group-hover:bg-tertiary-fixed-dim transition-all duration-300 relative">
-<div id="barMipValue" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">180</div>
+<div class="flex flex-col items-center justify-end gap-2 w-1/5 h-full min-w-0 group">
+<div id="barMip" class="w-full min-h-6 bg-tertiary rounded-t-sm group-hover:bg-tertiary-fixed-dim transition-all duration-300 relative" style="height: 45%;">
+<div id="barMipValue" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm py-1 px-2 rounded opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">280</div>
 </div>
-<span class="font-label-sm text-label-sm text-on-surface-variant text-center leading-tight">MIP</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-center leading-tight">Employer</span>
 </div>
 <!-- Bar 3 -->
-<div class="flex flex-col items-center gap-2 w-1/5 group">
-<div id="barEip" class="w-full bg-primary-fixed-dim rounded-t-sm h-[30%] group-hover:bg-primary-fixed transition-all duration-300 relative">
-<div id="barEipValue" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">120</div>
+<div class="flex flex-col items-center justify-end gap-2 w-1/5 h-full min-w-0 group">
+<div id="barEip" class="w-full min-h-6 bg-primary-fixed-dim rounded-t-sm group-hover:bg-primary-fixed transition-all duration-300 relative" style="height: 30%;">
+<div id="barEipValue" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm py-1 px-2 rounded opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">96</div>
 </div>
-<span class="font-label-sm text-label-sm text-on-surface-variant text-center leading-tight">EIP</span>
-</div>
-<!-- Bar 4 -->
-<div class="flex flex-col items-center gap-2 w-1/5 group">
-<div id="barService" class="w-full bg-outline rounded-t-sm h-[60%] group-hover:bg-outline-variant transition-all duration-300 relative">
-<div id="barServiceValue" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">240</div>
-</div>
-<span class="font-label-sm text-label-sm text-on-surface-variant text-center leading-tight">e-Service</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-center leading-tight">Corporate</span>
 </div>
 </div>
 </div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4 text-label-sm font-label-sm">
+<div class="flex items-center gap-2 min-w-0">
+<span class="w-3 h-3 rounded-sm bg-primary shrink-0"></span>
+<span class="truncate">Member <strong id="summarySst">820</strong></span>
 </div>
-<!-- Line Graph: Registration Volume (Mock Representation) -->
-<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col h-[400px]">
-<h3 class="font-headline-md text-headline-md text-on-surface mb-6">Registration Volume Today</h3>
-<div class="flex-grow relative border-b border-l border-outline-variant ml-8 mb-8">
+<div class="flex items-center gap-2 min-w-0">
+<span class="w-3 h-3 rounded-sm bg-tertiary shrink-0"></span>
+<span class="truncate">Employer <strong id="summaryMip">280</strong></span>
+</div>
+<div class="flex items-center gap-2 min-w-0">
+<span class="w-3 h-3 rounded-sm bg-primary-fixed-dim shrink-0"></span>
+<span class="truncate">Corporate <strong id="summaryEip">96</strong></span>
+</div>
+</div>
+</div>
+<!-- Area Chart: Registration Volume -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 sm:p-6 flex flex-col h-[320px] sm:h-[360px] lg:h-[400px]">
+<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4 sm:mb-6">
+<div>
+<h3 class="font-headline-md text-body-lg sm:text-headline-md text-on-surface">Registration Volume Today</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Hourly registrations by visit time</p>
+</div>
+<span class="inline-flex items-center gap-1 text-primary bg-primary-fixed px-2 py-1 rounded-md font-label-sm text-label-sm w-fit">
+<span class="material-symbols-outlined" style="font-size: 14px;">show_chart</span>
+                    Live trend
+                </span>
+</div>
+<div class="flex-grow relative ml-8 sm:ml-10 mb-8 rounded-lg bg-surface-container-low/40 border border-outline-variant overflow-hidden">
 <!-- Y Axis Labels (Mock) -->
-<div class="absolute -left-8 top-0 bottom-0 flex flex-col justify-between text-label-sm text-on-surface-variant font-label-sm">
+<div class="absolute -left-8 sm:-left-10 top-0 bottom-0 flex flex-col justify-between text-label-sm text-on-surface-variant font-label-sm py-3">
 <span>150</span>
 <span>100</span>
 <span>50</span>
 <span>0</span>
 </div>
+<div class="absolute inset-x-0 top-[16%] border-t border-dashed border-outline-variant"></div>
+<div class="absolute inset-x-0 top-[48%] border-t border-dashed border-outline-variant"></div>
+<div class="absolute inset-x-0 top-[80%] border-t border-dashed border-outline-variant"></div>
 <!-- X Axis Labels -->
-<div class="absolute -bottom-6 left-0 right-0 flex justify-between text-label-sm text-on-surface-variant font-label-sm">
+<div class="absolute -bottom-6 left-0 right-0 flex justify-between text-[10px] sm:text-label-sm text-on-surface-variant font-label-sm">
 <span>8 AM</span>
 <span>10 AM</span>
 <span>12 PM</span>
 <span>2 PM</span>
 <span>4 PM</span>
 </div>
-<!-- SVG Line (Visual representation) -->
 <svg class="w-full h-full absolute top-0 left-0" preserveAspectRatio="none" viewBox="0 0 100 100">
-<path id="volumeLine" class="opacity-80 transition-all duration-300" d="M0,80 C20,70 30,20 50,40 C70,60 80,30 100,50" fill="none" stroke="#101f79" stroke-width="2"></path>
-<path id="volumeArea" class="opacity-20 transition-all duration-300" d="M0,100 L0,80 C20,70 30,20 50,40 C70,60 80,30 100,50 L100,100 Z" fill="url(#blue-gradient)"></path>
 <defs>
 <linearGradient id="blue-gradient" x1="0" x2="0" y1="0" y2="1">
-<stop offset="0%" stop-color="#101f79"></stop>
+<stop offset="0%" stop-color="#101f79" stop-opacity="0.35"></stop>
 <stop offset="100%" stop-color="#fcf9f8" stop-opacity="0"></stop>
 </linearGradient>
 </defs>
+<path id="volumeArea" class="transition-all duration-500" d="M0,100 L0,66.8 C12.5,66.8 12.5,36.8 25,36.8 C37.5,36.8 37.5,15.2 50,15.2 C62.5,15.2 62.5,23.6 75,23.6 C87.5,23.6 87.5,12.8 100,12.8 L100,100 Z" fill="url(#blue-gradient)"></path>
+<path id="volumeLine" class="transition-all duration-500" d="M0,66.8 C12.5,66.8 12.5,36.8 25,36.8 C37.5,36.8 37.5,15.2 50,15.2 C62.5,15.2 62.5,23.6 75,23.6 C87.5,23.6 87.5,12.8 100,12.8" fill="none" stroke="#101f79" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
 <!-- Data Points -->
-<circle class="volume-point" cx="0" cy="80" fill="#101f79" r="2"></circle>
-<circle class="volume-point" cx="25" cy="50" fill="#101f79" r="2"></circle>
-<circle class="volume-point" cx="50" cy="40" fill="#101f79" r="2"></circle>
-<circle class="volume-point" cx="75" cy="45" fill="#101f79" r="2"></circle>
-<circle class="volume-point" cx="100" cy="50" fill="#101f79" r="2"></circle>
+<circle class="volume-point" cx="0" cy="66.8" fill="#ffffff" stroke="#101f79" stroke-width="1.8" r="2.6"></circle>
+<circle class="volume-point" cx="25" cy="36.8" fill="#ffffff" stroke="#101f79" stroke-width="1.8" r="2.6"></circle>
+<circle class="volume-point" cx="50" cy="15.2" fill="#ffffff" stroke="#101f79" stroke-width="1.8" r="2.6"></circle>
+<circle class="volume-point" cx="75" cy="23.6" fill="#ffffff" stroke="#101f79" stroke-width="1.8" r="2.6"></circle>
+<circle class="volume-point" cx="100" cy="12.8" fill="#ffffff" stroke="#101f79" stroke-width="1.8" r="2.6"></circle>
+<text class="volume-label" x="0" y="61" fill="#454652" font-size="5" text-anchor="start">42</text>
+<text class="volume-label" x="25" y="31" fill="#454652" font-size="5" text-anchor="middle">92</text>
+<text class="volume-label" x="50" y="10" fill="#454652" font-size="5" text-anchor="middle">128</text>
+<text class="volume-label" x="75" y="18" fill="#454652" font-size="5" text-anchor="middle">114</text>
+<text class="volume-label" x="100" y="8" fill="#454652" font-size="5" text-anchor="end">132</text>
 </svg>
 </div>
 </div>
 </div>
-<!-- Data Tables Section -->
-<div class="grid grid-cols-1 gap-gutter">
-<!-- Recent Registrations -->
-<div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
-<div class="p-4 bg-surface-container-low border-b border-outline-variant flex justify-between items-center">
-<h3 class="font-headline-md text-headline-md text-on-surface">Recent Registrations</h3>
-<button class="text-primary font-label-lg text-label-lg hover:underline">View All</button>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-stack-md md:gap-gutter">
+<!-- Most Active Staff Section -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden min-w-0">
+<div class="p-4 bg-surface-container-low border-b border-outline-variant flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Most Active Staff</h3>
+<p id="staffRankingDescription" class="font-label-sm text-label-sm text-on-surface-variant mt-1">Top 10 staff by daily handled cases.</p>
+</div>
+<div class="grid grid-cols-3 gap-1 bg-surface-container-lowest border border-outline-variant rounded-lg p-1 w-full sm:w-auto" role="tablist" aria-label="Most active staff period">
+<button id="staffTabDaily" class="staff-period-tab px-3 py-2 rounded-md bg-primary text-on-primary font-label-lg text-label-lg" type="button" data-period="daily" role="tab" aria-selected="true">Daily</button>
+<button id="staffTabWeekly" class="staff-period-tab px-3 py-2 rounded-md text-on-surface-variant hover:bg-surface-container font-label-lg text-label-lg" type="button" data-period="weekly" role="tab" aria-selected="false">Weekly</button>
+<button id="staffTabMonthly" class="staff-period-tab px-3 py-2 rounded-md text-on-surface-variant hover:bg-surface-container font-label-lg text-label-lg" type="button" data-period="monthly" role="tab" aria-selected="false">Monthly</button>
+</div>
 </div>
 <div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
+<table class="w-full min-w-[560px] text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-highest border-b border-outline-variant">
+<th class="p-3 font-label-lg text-label-lg text-on-surface-variant w-16">Rank</th>
+<th class="p-3 font-label-lg text-label-lg text-on-surface-variant">Staff</th>
+<th class="p-3 font-label-lg text-label-lg text-on-surface-variant">Branch</th>
+<th class="p-3 font-label-lg text-label-lg text-on-surface-variant text-right">Cases</th>
+</tr>
+</thead>
+<tbody id="staffRankingBody" class="font-body-sm text-body-sm text-on-surface divide-y divide-outline-variant"></tbody>
+</table>
+</div>
+</section>
+<div id="staffInfoModal" class="fixed inset-0 z-[60] bg-black/40 px-4 py-6 sm:py-10 flex items-center justify-center" hidden>
+<div id="staffInfoPanel" class="w-full max-w-lg bg-surface-container-lowest border border-outline-variant rounded-xl shadow-xl overflow-hidden" role="dialog" aria-modal="true" aria-labelledby="staffInfoName">
+<div class="p-4 bg-primary text-on-primary flex items-start justify-between gap-4">
+<div class="flex items-center gap-3 min-w-0">
+<div id="staffInfoInitials" class="w-12 h-12 rounded-full bg-on-primary text-primary flex items-center justify-center font-bold shrink-0">AR</div>
+<div class="min-w-0">
+<h3 id="staffInfoName" class="font-headline-md text-headline-md truncate">Aina Rahman</h3>
+<p id="staffInfoRole" class="font-label-sm text-label-sm opacity-90">Registration Desk</p>
+</div>
+</div>
+<button id="closeStaffInfoButton" class="p-2 rounded-lg hover:bg-on-primary/10 transition-colors" type="button" aria-label="Close staff info">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Staff ID</p>
+<p id="staffInfoId" class="font-label-lg text-label-lg text-on-surface">08421</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Branch</p>
+<p id="staffInfoBranch" class="font-label-lg text-label-lg text-on-surface">Kuala Lumpur Main</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Handled Cases</p>
+<p id="staffInfoCases" class="font-label-lg text-label-lg text-primary">184</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Period</p>
+<p id="staffInfoPeriod" class="font-label-lg text-label-lg text-on-surface">Daily</p>
+</div>
+</div>
+<div class="px-4 pb-4">
+<div class="bg-surface-container-low border border-outline-variant rounded-lg p-3">
+<p class="font-label-sm text-label-sm text-on-surface-variant">Demo Summary</p>
+<p id="staffInfoSummary" class="font-body-sm text-body-sm text-on-surface mt-1">This staff member is currently one of the most active counters for the selected period.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Busiest Branches Section -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden min-w-0">
+<div class="p-4 bg-surface-container-low border-b border-outline-variant flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Busiest Branches</h3>
+<p id="branchRankingDescription" class="font-label-sm text-label-sm text-on-surface-variant mt-1">Top 10 branches by daily visitor volume.</p>
+</div>
+<div class="grid grid-cols-3 gap-1 bg-surface-container-lowest border border-outline-variant rounded-lg p-1 w-full sm:w-auto" role="tablist" aria-label="Busiest branches period">
+<button class="branch-period-tab px-3 py-2 rounded-md bg-primary text-on-primary font-label-lg text-label-lg" type="button" data-period="daily" role="tab" aria-selected="true">Daily</button>
+<button class="branch-period-tab px-3 py-2 rounded-md text-on-surface-variant hover:bg-surface-container font-label-lg text-label-lg" type="button" data-period="weekly" role="tab" aria-selected="false">Weekly</button>
+<button class="branch-period-tab px-3 py-2 rounded-md text-on-surface-variant hover:bg-surface-container font-label-lg text-label-lg" type="button" data-period="monthly" role="tab" aria-selected="false">Monthly</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full min-w-[560px] text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-highest border-b border-outline-variant">
+<th class="p-3 font-label-lg text-label-lg text-on-surface-variant w-16">Rank</th>
+<th class="p-3 font-label-lg text-label-lg text-on-surface-variant">Branch</th>
+<th class="p-3 font-label-lg text-label-lg text-on-surface-variant">Region</th>
+<th class="p-3 font-label-lg text-label-lg text-on-surface-variant text-right">Visitors</th>
+</tr>
+</thead>
+<tbody id="branchRankingBody" class="font-body-sm text-body-sm text-on-surface divide-y divide-outline-variant"></tbody>
+</table>
+</div>
+</section>
+</div>
+<!-- Data Tables Section -->
+<div class="grid grid-cols-1 gap-stack-md md:gap-gutter">
+<!-- Recent Registrations -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
+<div class="p-4 bg-surface-container-low border-b border-outline-variant flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+<h3 class="font-headline-md text-headline-md text-on-surface">Recent Registrations</h3>
+<button class="text-primary font-label-lg text-label-lg hover:underline text-left sm:text-right">View All</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full min-w-[560px] text-left border-collapse">
 <thead>
 <tr class="bg-surface-container-highest border-b border-outline-variant">
 <th class="p-3 font-label-lg text-label-lg text-on-surface-variant">Customer ID</th>
@@ -481,7 +675,7 @@
 </main>
 <!-- Footer -->
 <footer class="bg-surface-container-highest dark:bg-inverse-surface border-t border-outline-variant mt-auto">
-<div class="w-full py-stack-lg px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-base max-w-container-max-width mx-auto">
+<div class="w-full py-stack-md md:py-stack-lg px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-stack-sm md:gap-base max-w-container-max-width mx-auto">
 <div class="font-headline-md text-headline-md font-bold text-on-surface text-center md:text-left">
                 EPF Branch Portal
             </div>
@@ -506,8 +700,8 @@ const dashboardSnapshots = [
             ["Petaling Jaya", 942],
             ["Shah Alam", 815]
         ],
-        attendance: { sst: 320, mip: 180, eip: 120, service: 240 },
-        line: [80, 50, 40, 45, 50],
+        attendance: { member: 872, employer: 280, corporate: 96 },
+        line: [42, 92, 128, 114, 132],
         recent: [
             ["CUS-8921", "Member", "SST Enquiry"],
             ["EMP-4432", "Employer", "Contribution Issue"],
@@ -524,8 +718,8 @@ const dashboardSnapshots = [
             ["Petaling Jaya", 984],
             ["Johor Bahru", 872]
         ],
-        attendance: { sst: 350, mip: 205, eip: 144, service: 276 },
-        line: [74, 56, 34, 39, 42],
+        attendance: { member: 918, employer: 304, corporate: 104 },
+        line: [48, 88, 136, 126, 142],
         recent: [
             ["CUS-8930", "Member", "Account Statement"],
             ["EMP-4440", "Employer", "Contribution Issue"],
@@ -542,8 +736,8 @@ const dashboardSnapshots = [
             ["Kuala Lumpur (Main)", 975],
             ["Shah Alam", 804]
         ],
-        attendance: { sst: 288, mip: 214, eip: 138, service: 198 },
-        line: [82, 62, 48, 51, 57],
+        attendance: { member: 779, employer: 322, corporate: 88 },
+        line: [36, 74, 108, 98, 118],
         recent: [
             ["EMP-4445", "Employer", "Payment Assistance"],
             ["CUS-8938", "Member", "Withdrawal"],
@@ -584,8 +778,251 @@ const profileSnapshots = [
     }
 ];
 
+const staffRankingData = {
+    daily: [
+        { name: "Aina Rahman", initials: "AR", branch: "Kuala Lumpur Main", role: "Registration Desk", cases: 184 },
+        { name: "Amir Hakim", initials: "AH", branch: "Petaling Jaya", role: "Member Services", cases: 176 },
+        { name: "Anis Farhana", initials: "AF", branch: "Shah Alam", role: "Employer Support", cases: 169 },
+        { name: "Siti Leesa", initials: "SL", branch: "Johor Bahru", role: "Counter Lead", cases: 158 },
+        { name: "Daniel Tan", initials: "DT", branch: "Klang", role: "Registration Desk", cases: 151 },
+        { name: "Nur Izzati", initials: "NI", branch: "Ipoh", role: "Member Services", cases: 143 },
+        { name: "Farid Azman", initials: "FA", branch: "Seremban", role: "Employer Support", cases: 136 },
+        { name: "Mei Lin Wong", initials: "MW", branch: "Penang", role: "Counter Lead", cases: 128 },
+        { name: "Hafiz Roslan", initials: "HR", branch: "Melaka", role: "Registration Desk", cases: 121 },
+        { name: "Priya Nair", initials: "PN", branch: "Kuantan", role: "Member Services", cases: 117 }
+    ],
+    weekly: [
+        { name: "Amir Hakim", initials: "AH", branch: "Petaling Jaya", role: "Member Services", cases: 846 },
+        { name: "Aina Rahman", initials: "AR", branch: "Kuala Lumpur Main", role: "Registration Desk", cases: 831 },
+        { name: "Siti Leesa", initials: "SL", branch: "Johor Bahru", role: "Counter Lead", cases: 804 },
+        { name: "Anis Farhana", initials: "AF", branch: "Shah Alam", role: "Employer Support", cases: 792 },
+        { name: "Farid Azman", initials: "FA", branch: "Seremban", role: "Employer Support", cases: 751 },
+        { name: "Daniel Tan", initials: "DT", branch: "Klang", role: "Registration Desk", cases: 736 },
+        { name: "Mei Lin Wong", initials: "MW", branch: "Penang", role: "Counter Lead", cases: 714 },
+        { name: "Nur Izzati", initials: "NI", branch: "Ipoh", role: "Member Services", cases: 699 },
+        { name: "Priya Nair", initials: "PN", branch: "Kuantan", role: "Member Services", cases: 672 },
+        { name: "Hafiz Roslan", initials: "HR", branch: "Melaka", role: "Registration Desk", cases: 655 }
+    ],
+    monthly: [
+        { name: "Siti Leesa", initials: "SL", branch: "Johor Bahru", role: "Counter Lead", cases: 3428 },
+        { name: "Aina Rahman", initials: "AR", branch: "Kuala Lumpur Main", role: "Registration Desk", cases: 3386 },
+        { name: "Amir Hakim", initials: "AH", branch: "Petaling Jaya", role: "Member Services", cases: 3314 },
+        { name: "Anis Farhana", initials: "AF", branch: "Shah Alam", role: "Employer Support", cases: 3189 },
+        { name: "Mei Lin Wong", initials: "MW", branch: "Penang", role: "Counter Lead", cases: 3046 },
+        { name: "Farid Azman", initials: "FA", branch: "Seremban", role: "Employer Support", cases: 2987 },
+        { name: "Nur Izzati", initials: "NI", branch: "Ipoh", role: "Member Services", cases: 2864 },
+        { name: "Daniel Tan", initials: "DT", branch: "Klang", role: "Registration Desk", cases: 2811 },
+        { name: "Priya Nair", initials: "PN", branch: "Kuantan", role: "Member Services", cases: 2739 },
+        { name: "Hafiz Roslan", initials: "HR", branch: "Melaka", role: "Registration Desk", cases: 2672 }
+    ]
+};
+
+const branchRankingData = {
+    daily: [
+        { name: "Kuala Lumpur Main", code: "KUL", region: "Central", visitors: 1840, wait: "14m", capacity: 98 },
+        { name: "Petaling Jaya", code: "PJY", region: "Central", visitors: 1210, wait: "12m", capacity: 91 },
+        { name: "Shah Alam", code: "SHA", region: "Central", visitors: 980, wait: "11m", capacity: 86 },
+        { name: "Johor Bahru", code: "JHB", region: "Southern", visitors: 750, wait: "10m", capacity: 79 },
+        { name: "Penang", code: "PEN", region: "Northern", visitors: 698, wait: "9m", capacity: 76 },
+        { name: "Ipoh", code: "IPH", region: "Northern", visitors: 641, wait: "8m", capacity: 72 },
+        { name: "Klang", code: "KLG", region: "Central", visitors: 604, wait: "9m", capacity: 70 },
+        { name: "Seremban", code: "SRB", region: "Southern", visitors: 572, wait: "7m", capacity: 66 },
+        { name: "Melaka", code: "MLK", region: "Southern", visitors: 548, wait: "7m", capacity: 64 },
+        { name: "Kuantan", code: "KUA", region: "East Coast", visitors: 519, wait: "6m", capacity: 61 }
+    ],
+    weekly: [
+        { name: "Kuala Lumpur Main", code: "KUL", region: "Central", visitors: 9234, wait: "15m", capacity: 97 },
+        { name: "Petaling Jaya", code: "PJY", region: "Central", visitors: 8142, wait: "13m", capacity: 92 },
+        { name: "Johor Bahru", code: "JHB", region: "Southern", visitors: 7438, wait: "12m", capacity: 88 },
+        { name: "Shah Alam", code: "SHA", region: "Central", visitors: 7185, wait: "11m", capacity: 85 },
+        { name: "Penang", code: "PEN", region: "Northern", visitors: 6692, wait: "10m", capacity: 81 },
+        { name: "Klang", code: "KLG", region: "Central", visitors: 6210, wait: "9m", capacity: 77 },
+        { name: "Ipoh", code: "IPH", region: "Northern", visitors: 5948, wait: "9m", capacity: 74 },
+        { name: "Seremban", code: "SRB", region: "Southern", visitors: 5584, wait: "8m", capacity: 70 },
+        { name: "Kota Kinabalu", code: "BKI", region: "Sabah", visitors: 5316, wait: "8m", capacity: 68 },
+        { name: "Melaka", code: "MLK", region: "Southern", visitors: 5089, wait: "7m", capacity: 65 }
+    ],
+    monthly: [
+        { name: "Kuala Lumpur Main", code: "KUL", region: "Central", visitors: 37142, wait: "16m", capacity: 99 },
+        { name: "Petaling Jaya", code: "PJY", region: "Central", visitors: 33680, wait: "14m", capacity: 94 },
+        { name: "Johor Bahru", code: "JHB", region: "Southern", visitors: 31244, wait: "13m", capacity: 90 },
+        { name: "Shah Alam", code: "SHA", region: "Central", visitors: 30418, wait: "12m", capacity: 87 },
+        { name: "Penang", code: "PEN", region: "Northern", visitors: 28710, wait: "11m", capacity: 84 },
+        { name: "Klang", code: "KLG", region: "Central", visitors: 26352, wait: "10m", capacity: 80 },
+        { name: "Ipoh", code: "IPH", region: "Northern", visitors: 24996, wait: "9m", capacity: 76 },
+        { name: "Kota Kinabalu", code: "BKI", region: "Sabah", visitors: 23864, wait: "9m", capacity: 73 },
+        { name: "Seremban", code: "SRB", region: "Southern", visitors: 22670, wait: "8m", capacity: 70 },
+        { name: "Kuching", code: "KCH", region: "Sarawak", visitors: 21438, wait: "8m", capacity: 67 }
+    ]
+};
+
+const branchLocationData = [
+    { name: "KWSP Kwasa Damansara (HQ)", code: "KDHQ", region: "Central", status: "Peak", visitors: 1320, x: 14, y: 18 },
+    { name: "KWSP Kepong", code: "KPG", region: "Central", status: "Active", visitors: 690, x: 24, y: 19 },
+    { name: "KWSP Petaling Jaya", code: "PJY", region: "Central", status: "Active", visitors: 942, x: 35, y: 18 },
+    { name: "KWSP Gombak", code: "GMB", region: "Central", status: "Active", visitors: 515, x: 46, y: 18 },
+    { name: "KWSP Kuala Lumpur", code: "KUL", region: "Central", status: "Peak", visitors: 1248, x: 57, y: 18 },
+    { name: "KWSP Rawang", code: "RWG", region: "Central", status: "Active", visitors: 384, x: 68, y: 18 },
+    { name: "KWSP Shah Alam", code: "SHA", region: "Central", status: "Active", visitors: 815, x: 79, y: 18 },
+    { name: "KWSP Wangsa Maju", code: "WMJ", region: "Central", status: "Active", visitors: 522, x: 90, y: 18 },
+    { name: "KWSP Sri Petaling", code: "SPT", region: "Central", status: "Active", visitors: 468, x: 12, y: 27 },
+    { name: "KWSP Puchong", code: "PCH", region: "Central", status: "Active", visitors: 544, x: 23, y: 27 },
+    { name: "KWSP Klang", code: "KLG", region: "Central", status: "Peak", visitors: 604, x: 34, y: 27 },
+    { name: "KWSP Putrajaya", code: "PJH", region: "Central", status: "Active", visitors: 430, x: 45, y: 27 },
+    { name: "KWSP Kajang", code: "KJG", region: "Central", status: "Active", visitors: 487, x: 56, y: 27 },
+    { name: "KWSP Kuala Selangor", code: "KSE", region: "Central", status: "Active", visitors: 298, x: 67, y: 27 },
+    { name: "KWSP Nilai", code: "NIL", region: "Southern", status: "Active", visitors: 334, x: 78, y: 27 },
+    { name: "KWSP Seremban", code: "SRB", region: "Southern", status: "Active", visitors: 572, x: 89, y: 27 },
+    { name: "KWSP Raub", code: "RAB", region: "East Coast", status: "Active", visitors: 246, x: 14, y: 36 },
+    { name: "KWSP Temerloh", code: "TML", region: "East Coast", status: "Active", visitors: 318, x: 25, y: 36 },
+    { name: "KWSP Bahau", code: "BHU", region: "Southern", status: "Active", visitors: 284, x: 36, y: 36 },
+    { name: "KWSP Teluk Intan", code: "TIN", region: "Northern", status: "Active", visitors: 302, x: 47, y: 36 },
+    { name: "KWSP Alor Gajah", code: "AGJ", region: "Southern", status: "Active", visitors: 261, x: 58, y: 36 },
+    { name: "KWSP Jerantut", code: "JRT", region: "East Coast", status: "Active", visitors: 226, x: 69, y: 36 },
+    { name: "KWSP Bandar Melaka", code: "MLK", region: "Southern", status: "Active", visitors: 548, x: 80, y: 36 },
+    { name: "KWSP Jasin", code: "JSN", region: "Southern", status: "Active", visitors: 238, x: 91, y: 36 },
+    { name: "KWSP Manjung", code: "MNJ", region: "Northern", status: "Active", visitors: 316, x: 12, y: 45 },
+    { name: "KWSP Segamat", code: "SGM", region: "Southern", status: "Active", visitors: 347, x: 23, y: 45 },
+    { name: "KWSP Ipoh", code: "IPH", region: "Northern", status: "Active", visitors: 641, x: 34, y: 45 },
+    { name: "KWSP Muar", code: "MUR", region: "Southern", status: "Active", visitors: 365, x: 45, y: 45 },
+    { name: "KWSP Kuala Kangsar", code: "KKS", region: "Northern", status: "Active", visitors: 254, x: 56, y: 45 },
+    { name: "KWSP Kuantan", code: "KUA", region: "East Coast", status: "Active", visitors: 519, x: 67, y: 45 },
+    { name: "KWSP Pekan", code: "PKN", region: "East Coast", status: "Active", visitors: 220, x: 78, y: 45 },
+    { name: "KWSP Taiping", code: "TPG", region: "Northern", status: "Active", visitors: 327, x: 89, y: 45 },
+    { name: "KWSP Batu Pahat", code: "BPT", region: "Southern", status: "Active", visitors: 399, x: 14, y: 54 },
+    { name: "KWSP Kluang", code: "KLU", region: "Southern", status: "Active", visitors: 344, x: 25, y: 54 },
+    { name: "KWSP Kemaman", code: "KMM", region: "East Coast", status: "Active", visitors: 276, x: 36, y: 54 },
+    { name: "KWSP Parit Buntar", code: "PBT", region: "Northern", status: "Active", visitors: 240, x: 47, y: 54 },
+    { name: "KWSP Mersing", code: "MSG", region: "Southern", status: "Active", visitors: 218, x: 58, y: 54 },
+    { name: "KWSP Dungun", code: "DGN", region: "East Coast", status: "Active", visitors: 252, x: 69, y: 54 },
+    { name: "KWSP Kulim", code: "KLM", region: "Northern", status: "Active", visitors: 338, x: 80, y: 54 },
+    { name: "KWSP Kuala Krai", code: "KKR", region: "East Coast", status: "Active", visitors: 234, x: 91, y: 54 },
+    { name: "KWSP Bayan Baru", code: "BYB", region: "Northern", status: "Active", visitors: 416, x: 12, y: 63 },
+    { name: "KWSP Seberang Jaya", code: "SBJ", region: "Northern", status: "Active", visitors: 388, x: 23, y: 63 },
+    { name: "KWSP Georgetown", code: "GTN", region: "Northern", status: "Active", visitors: 430, x: 34, y: 63 },
+    { name: "KWSP Kulai", code: "KLI", region: "Southern", status: "Active", visitors: 322, x: 45, y: 63 },
+    { name: "KWSP Kuala Terengganu", code: "TGG", region: "East Coast", status: "Active", visitors: 462, x: 56, y: 63 },
+    { name: "KWSP Tanah Merah", code: "TNM", region: "East Coast", status: "Active", visitors: 258, x: 67, y: 63 },
+    { name: "KWSP Sungai Petani", code: "SPN", region: "Northern", status: "Active", visitors: 356, x: 78, y: 63 },
+    { name: "KWSP Jerteh", code: "JTH", region: "East Coast", status: "Active", visitors: 247, x: 89, y: 63 },
+    { name: "KWSP Johor Bahru", code: "JHB", region: "Southern", status: "Peak", visitors: 750, x: 14, y: 72 },
+    { name: "KWSP Pasir Gudang", code: "PGD", region: "Southern", status: "Active", visitors: 369, x: 25, y: 72 },
+    { name: "KWSP Kota Bharu", code: "KBR", region: "East Coast", status: "Active", visitors: 486, x: 36, y: 72 },
+    { name: "KWSP Alor Setar", code: "AST", region: "Northern", status: "Active", visitors: 372, x: 47, y: 72 },
+    { name: "KWSP Kangar", code: "KGR", region: "Northern", status: "Active", visitors: 214, x: 58, y: 72 },
+    { name: "KWSP Langkawi", code: "LGK", region: "Northern", status: "Active", visitors: 208, x: 69, y: 72 },
+    { name: "KWSP Kuching", code: "KCH", region: "Sarawak", status: "Active", visitors: 684, x: 80, y: 72 },
+    { name: "KWSP Sarikei", code: "SRK", region: "Sarawak", status: "Active", visitors: 248, x: 91, y: 72 },
+    { name: "KWSP Sri Aman", code: "SAM", region: "Sarawak", status: "Active", visitors: 230, x: 12, y: 81 },
+    { name: "KWSP Sibu", code: "SBU", region: "Sarawak", status: "Active", visitors: 392, x: 23, y: 81 },
+    { name: "KWSP Bintulu", code: "BTU", region: "Sarawak", status: "Active", visitors: 334, x: 34, y: 81 },
+    { name: "KWSP Miri", code: "MYY", region: "Sarawak", status: "Active", visitors: 366, x: 45, y: 81 },
+    { name: "KWSP Limbang", code: "LBG", region: "Sarawak", status: "Active", visitors: 176, x: 56, y: 81 },
+    { name: "KWSP Labuan", code: "LBN", region: "Labuan", status: "Active", visitors: 292, x: 67, y: 81 },
+    { name: "KWSP Beaufort", code: "BFT", region: "Sabah", status: "Active", visitors: 205, x: 78, y: 81 },
+    { name: "KWSP Kota Kinabalu", code: "BKI", region: "Sabah", status: "Peak", visitors: 712, x: 89, y: 81 },
+    { name: "KWSP Keningau", code: "KNG", region: "Sabah", status: "Active", visitors: 226, x: 14, y: 90 },
+    { name: "KWSP Kota Marudu", code: "KMD", region: "Sabah", status: "Active", visitors: 184, x: 25, y: 90 },
+    { name: "KWSP Kudat", code: "KDT", region: "Sabah", status: "Active", visitors: 178, x: 36, y: 90 },
+    { name: "KWSP Tawau", code: "TWU", region: "Sabah", status: "Active", visitors: 416, x: 47, y: 90 },
+    { name: "KWSP Sandakan", code: "SDK", region: "Sabah", status: "Active", visitors: 438, x: 58, y: 90 },
+    { name: "KWSP Lahad Datu", code: "LDU", region: "Sabah", status: "Active", visitors: 286, x: 69, y: 90 }
+];
+
+const branchGeoCoordinates = {
+    KDHQ: [3.080, 101.529],
+    KPG: [3.213, 101.637],
+    PJY: [3.108, 101.638],
+    GMB: [3.237, 101.681],
+    KUL: [3.159, 101.699],
+    RWG: [3.321, 101.576],
+    SHA: [3.073, 101.518],
+    WMJ: [3.203, 101.741],
+    SPT: [3.069, 101.693],
+    PCH: [3.019, 101.616],
+    KLG: [3.043, 101.449],
+    PJH: [2.926, 101.696],
+    KJG: [2.993, 101.790],
+    KSE: [3.340, 101.249],
+    NIL: [2.815, 101.798],
+    SRB: [2.729, 101.938],
+    RAB: [3.793, 101.857],
+    TML: [3.449, 102.420],
+    BHU: [2.807, 102.404],
+    TIN: [4.025, 101.021],
+    AGJ: [2.380, 102.208],
+    JRT: [3.936, 102.362],
+    MLK: [2.270, 102.285],
+    JSN: [2.309, 102.430],
+    MNJ: [4.211, 100.657],
+    SGM: [2.514, 102.815],
+    IPH: [4.597, 101.090],
+    MUR: [2.044, 102.568],
+    KKS: [4.766, 100.934],
+    KUA: [3.807, 103.326],
+    PKN: [3.493, 103.390],
+    TPG: [4.851, 100.741],
+    BPT: [1.854, 102.932],
+    KLU: [2.030, 103.317],
+    KMM: [4.230, 103.422],
+    PBT: [5.126, 100.493],
+    MSG: [2.431, 103.840],
+    DGN: [4.756, 103.416],
+    KLM: [5.365, 100.561],
+    KKR: [5.531, 102.202],
+    BYB: [5.326, 100.285],
+    SBJ: [5.398, 100.399],
+    GTN: [5.421, 100.334],
+    KLI: [1.657, 103.603],
+    TGG: [5.330, 103.140],
+    TNM: [5.809, 102.150],
+    SPN: [5.644, 100.489],
+    JTH: [5.733, 102.489],
+    JHB: [1.459, 103.764],
+    PGD: [1.470, 103.878],
+    KBR: [6.125, 102.238],
+    AST: [6.124, 100.367],
+    KGR: [6.441, 100.198],
+    LGK: [6.350, 99.800],
+    KCH: [1.553, 110.359],
+    SRK: [2.127, 111.522],
+    SAM: [1.237, 111.462],
+    SBU: [2.287, 111.830],
+    BTU: [3.172, 113.041],
+    MYY: [4.399, 113.991],
+    LBG: [4.750, 115.000],
+    LBN: [5.280, 115.240],
+    BFT: [5.347, 115.745],
+    BKI: [5.980, 116.073],
+    KNG: [5.337, 116.160],
+    KMD: [6.500, 116.775],
+    KDT: [6.883, 116.846],
+    TWU: [4.244, 117.891],
+    SDK: [5.839, 118.117],
+    LDU: [5.026, 118.327]
+};
+
+const branchMapPositionOverrides = {
+    KCH: { x: 47, y: 82 },
+    SRK: { x: 53, y: 77 },
+    SAM: { x: 51, y: 82 },
+    SBU: { x: 56, y: 71 },
+    BTU: { x: 61, y: 63 },
+    MYY: { x: 68, y: 44 },
+    LBG: { x: 74, y: 32 },
+    LBN: { x: 73, y: 35 },
+    BFT: { x: 75, y: 39 },
+    BKI: { x: 78, y: 28 },
+    KNG: { x: 80, y: 43 },
+    KMD: { x: 82, y: 20 },
+    KDT: { x: 81, y: 11 },
+    TWU: { x: 91, y: 48 },
+    SDK: { x: 94, y: 29 },
+    LDU: { x: 94, y: 43 }
+};
+
 let activeSnapshotIndex = 0;
-let isRefreshing = false;
+let liveActivityTimerId = null;
 
 const formatNumber = (value) => new Intl.NumberFormat("en-MY").format(value);
 const currentTimeLabel = () => new Date().toLocaleTimeString("en-MY", {
@@ -625,28 +1062,52 @@ function updateRecentRegistrations(recentRegistrations) {
 }
 
 function updateAttendanceBars(attendance) {
-    const maxValue = 400;
+    const maxValue = 950;
     const barMap = [
-        ["barSst", "barSstValue", attendance.sst],
-        ["barMip", "barMipValue", attendance.mip],
-        ["barEip", "barEipValue", attendance.eip],
-        ["barService", "barServiceValue", attendance.service]
+        ["barSst", "barSstValue", attendance.member],
+        ["barMip", "barMipValue", attendance.employer],
+        ["barEip", "barEipValue", attendance.corporate]
     ];
 
     barMap.forEach(([barId, valueId, value]) => {
         document.getElementById(barId).style.height = `${Math.max((value / maxValue) * 100, 8)}%`;
         document.getElementById(valueId).textContent = formatNumber(value);
     });
+
+    document.getElementById("summarySst").textContent = formatNumber(attendance.member);
+    document.getElementById("summaryMip").textContent = formatNumber(attendance.employer);
+    document.getElementById("summaryEip").textContent = formatNumber(attendance.corporate);
 }
 
-function updateVolumeLine(points) {
-    const [first, second, third, fourth, fifth] = points;
-    const linePath = `M0,${first} C20,${second} 30,${third} 50,${third} C70,${fourth} 80,${fourth} 100,${fifth}`;
-    document.getElementById("volumeLine").setAttribute("d", linePath);
-    document.getElementById("volumeArea").setAttribute("d", `M0,100 L0,${first} C20,${second} 30,${third} 50,${third} C70,${fourth} 80,${fourth} 100,${fifth} L100,100 Z`);
+function updateVolumeLine(values) {
+    const maxVolume = 150;
+    const xPositions = [0, 25, 50, 75, 100];
+    const yPositions = values.map((value) => 92 - ((value / maxVolume) * 84));
+    const curve = yPositions.reduce((path, y, index) => {
+        if (index === 0) {
+            return `M${xPositions[index]},${y.toFixed(1)}`;
+        }
+
+        const previousX = xPositions[index - 1];
+        const previousY = yPositions[index - 1];
+        const x = xPositions[index];
+        const controlOffset = (x - previousX) / 2;
+
+        return `${path} C${(previousX + controlOffset).toFixed(1)},${previousY.toFixed(1)} ${(x - controlOffset).toFixed(1)},${y.toFixed(1)} ${x},${y.toFixed(1)}`;
+    }, "");
+
+    document.getElementById("volumeLine").setAttribute("d", curve);
+    document.getElementById("volumeArea").setAttribute("d", `${curve} L100,100 L0,100 Z`);
 
     document.querySelectorAll(".volume-point").forEach((point, index) => {
-        point.setAttribute("cy", points[index]);
+        point.setAttribute("cx", xPositions[index]);
+        point.setAttribute("cy", yPositions[index].toFixed(1));
+    });
+
+    document.querySelectorAll(".volume-label").forEach((label, index) => {
+        const labelY = Math.max(yPositions[index] - 5, 6);
+        label.setAttribute("y", labelY.toFixed(1));
+        label.textContent = values[index];
     });
 }
 
@@ -663,6 +1124,254 @@ function updateProfile(profile) {
     document.getElementById("profileStatus").lastChild.textContent = ` ${profile.status}`;
 }
 
+function renderStaffRanking(period) {
+    const periodLabels = {
+        daily: "daily",
+        weekly: "weekly",
+        monthly: "monthly"
+    };
+    const staffRankingBody = document.getElementById("staffRankingBody");
+    const rankingRows = staffRankingData[period] || staffRankingData.daily;
+
+    staffRankingBody.innerHTML = rankingRows.map((staff, index) => `
+        <tr class="staff-ranking-row hover:bg-surface-container-low transition-colors cursor-pointer focus-within:bg-surface-container-low" data-period="${period}" data-index="${index}">
+            <td class="p-3">
+                <span class="inline-flex w-8 h-8 items-center justify-center rounded-full ${index < 3 ? "bg-primary text-on-primary" : "bg-surface-container-high text-on-surface"} font-label-lg text-label-lg">${index + 1}</span>
+            </td>
+            <td class="p-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full bg-primary-fixed text-on-primary-fixed-variant flex items-center justify-center font-label-lg text-label-lg shrink-0">${staff.initials}</div>
+                    <div class="min-w-0">
+                        <p class="font-label-lg text-label-lg text-on-surface truncate">${staff.name}</p>
+                        <p class="font-label-sm text-label-sm text-on-surface-variant">Staff ID ${String(8421 + index * 37).padStart(5, "0")}</p>
+                    </div>
+                </div>
+            </td>
+            <td class="p-3">${staff.branch}</td>
+            <td class="p-3 text-right">
+                <button class="font-label-lg text-label-lg text-primary hover:underline" type="button" data-period="${period}" data-index="${index}" aria-label="Open ${staff.name} staff info">${formatNumber(staff.cases)}</button>
+            </td>
+        </tr>
+    `).join("");
+
+    document.getElementById("staffRankingDescription").textContent = `Top 10 staff by ${periodLabels[period]} handled cases.`;
+
+    document.querySelectorAll(".staff-period-tab").forEach((tab) => {
+        const isActive = tab.dataset.period === period;
+        tab.classList.toggle("bg-primary", isActive);
+        tab.classList.toggle("text-on-primary", isActive);
+        tab.classList.toggle("text-on-surface-variant", !isActive);
+        tab.classList.toggle("hover:bg-surface-container", !isActive);
+        tab.setAttribute("aria-selected", String(isActive));
+    });
+
+    document.querySelectorAll(".staff-ranking-row").forEach((row) => {
+        row.addEventListener("click", () => openStaffInfo(row.dataset.period, Number(row.dataset.index)));
+    });
+}
+
+function openStaffInfo(period, index) {
+    const staff = (staffRankingData[period] || staffRankingData.daily)[index];
+
+    if (!staff) {
+        return;
+    }
+
+    const periodLabel = period.charAt(0).toUpperCase() + period.slice(1);
+    const staffId = String(8421 + index * 37).padStart(5, "0");
+    document.getElementById("staffInfoInitials").textContent = staff.initials;
+    document.getElementById("staffInfoName").textContent = staff.name;
+    document.getElementById("staffInfoRole").textContent = staff.role;
+    document.getElementById("staffInfoId").textContent = `EPF-${staffId}`;
+    document.getElementById("staffInfoBranch").textContent = staff.branch;
+    document.getElementById("staffInfoCases").textContent = `${formatNumber(staff.cases)} cases`;
+    document.getElementById("staffInfoPeriod").textContent = periodLabel;
+    document.getElementById("staffInfoSummary").textContent = `${staff.name} handled ${formatNumber(staff.cases)} cases for the ${period} view at ${staff.branch}. This is dummy demo data for staff detail simulation.`;
+    document.getElementById("staffInfoModal").hidden = false;
+}
+
+function closeStaffInfo() {
+    document.getElementById("staffInfoModal").hidden = true;
+}
+
+function renderBranchRanking(period) {
+    const periodLabels = {
+        daily: "daily",
+        weekly: "weekly",
+        monthly: "monthly"
+    };
+    const branchRankingBody = document.getElementById("branchRankingBody");
+    const rankingRows = branchRankingData[period] || branchRankingData.daily;
+
+    branchRankingBody.innerHTML = rankingRows.map((branch, index) => `
+        <tr class="hover:bg-surface-container-low transition-colors">
+            <td class="p-3">
+                <span class="inline-flex w-8 h-8 items-center justify-center rounded-full ${index < 3 ? "bg-tertiary text-on-tertiary" : "bg-surface-container-high text-on-surface"} font-label-lg text-label-lg">${index + 1}</span>
+            </td>
+            <td class="p-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed-variant flex items-center justify-center font-label-lg text-label-lg shrink-0">${branch.code}</div>
+                    <div class="min-w-0">
+                        <p class="font-label-lg text-label-lg text-on-surface truncate">${branch.name}</p>
+                        <p class="font-label-sm text-label-sm text-on-surface-variant">Branch Code ${branch.code}</p>
+                    </div>
+                </div>
+            </td>
+            <td class="p-3">${branch.region}</td>
+            <td class="p-3 text-right font-label-lg text-label-lg text-primary">${formatNumber(branch.visitors)}</td>
+        </tr>
+    `).join("");
+
+    document.getElementById("branchRankingDescription").textContent = `Top 10 branches by ${periodLabels[period]} visitor volume.`;
+
+    document.querySelectorAll(".branch-period-tab").forEach((tab) => {
+        const isActive = tab.dataset.period === period;
+        tab.classList.toggle("bg-primary", isActive);
+        tab.classList.toggle("text-on-primary", isActive);
+        tab.classList.toggle("text-on-surface-variant", !isActive);
+        tab.classList.toggle("hover:bg-surface-container", !isActive);
+        tab.setAttribute("aria-selected", String(isActive));
+    });
+}
+
+function projectBranchToMap(branch) {
+    if (branchMapPositionOverrides[branch.code]) {
+        return branchMapPositionOverrides[branch.code];
+    }
+
+    const coordinate = branchGeoCoordinates[branch.code];
+
+    if (!coordinate) {
+        return { x: branch.x, y: branch.y };
+    }
+
+    const [latitude, longitude] = coordinate;
+    const bounds = branch.region === "Sabah" || branch.region === "Sarawak" || branch.region === "Labuan"
+        ? {
+            minLatitude: 0.9,
+            maxLatitude: 7.3,
+            minLongitude: 109.4,
+            maxLongitude: 119.4,
+            left: 43,
+            right: 97,
+            top: 8,
+            bottom: 82
+        }
+        : {
+            minLatitude: 1.1,
+            maxLatitude: 6.8,
+            minLongitude: 99.5,
+            maxLongitude: 104.4,
+            left: 6,
+            right: 29,
+            top: 12,
+            bottom: 80
+        };
+
+    const longitudeRatio = (longitude - bounds.minLongitude) / (bounds.maxLongitude - bounds.minLongitude);
+    const latitudeRatio = (bounds.maxLatitude - latitude) / (bounds.maxLatitude - bounds.minLatitude);
+
+    return {
+        x: bounds.left + (Math.min(Math.max(longitudeRatio, 0), 1) * (bounds.right - bounds.left)),
+        y: bounds.top + (Math.min(Math.max(latitudeRatio, 0), 1) * (bounds.bottom - bounds.top))
+    };
+}
+
+function selectBranchLocation(index) {
+    const branch = branchLocationData[index] || branchLocationData[0];
+    const statusClass = branch.status === "Peak" ? "text-secondary bg-secondary-fixed" : "text-primary bg-primary-fixed";
+
+    document.getElementById("selectedBranchName").textContent = branch.name;
+    document.getElementById("selectedBranchRegion").textContent = branch.region;
+    document.getElementById("selectedBranchStatus").textContent = branch.status;
+    document.getElementById("selectedBranchStatus").className = `font-label-sm text-label-sm px-2 py-1 rounded-md ${statusClass}`;
+    document.getElementById("selectedBranchVisitors").textContent = `${formatNumber(branch.visitors)} visitors`;
+    document.getElementById("selectedBranchCode").textContent = branch.code;
+
+    document.querySelectorAll(".branch-map-pin").forEach((pin) => {
+        const isActive = Number(pin.dataset.index) === index;
+        const isPeak = pin.dataset.status === "Peak";
+        pin.classList.toggle("bg-secondary", isActive || isPeak);
+        pin.classList.toggle("text-on-secondary", isActive || isPeak);
+        pin.classList.toggle("bg-primary", !isActive && !isPeak);
+        pin.classList.toggle("text-on-primary", !isActive && !isPeak);
+        pin.classList.toggle("scale-125", isActive);
+        pin.classList.toggle("z-20", isActive);
+    });
+
+    document.querySelectorAll(".branch-location-item").forEach((item) => {
+        const isActive = Number(item.dataset.index) === index;
+        item.classList.toggle("bg-primary-fixed", isActive);
+    });
+}
+
+function focusBranchLocationItem(index) {
+    const selectedItem = document.querySelector(`.branch-location-item[data-index="${index}"]`);
+
+    if (!selectedItem) {
+        return;
+    }
+
+    selectedItem.scrollIntoView({ block: "nearest", behavior: "smooth" });
+}
+
+function getFilteredBranches() {
+    const searchTerm = document.getElementById("branchSearchInput").value.trim().toLowerCase();
+    const selectedRegion = document.getElementById("branchRegionFilter").value;
+    const selectedStatus = document.getElementById("branchStatusFilter").value;
+
+    return branchLocationData
+        .map((branch, index) => ({ branch, index }))
+        .filter(({ branch }) => {
+            const matchesSearch = !searchTerm || branch.name.toLowerCase().includes(searchTerm) || branch.code.toLowerCase().includes(searchTerm);
+            const matchesRegion = selectedRegion === "all" || branch.region === selectedRegion;
+            const matchesStatus = selectedStatus === "all" || branch.status === selectedStatus;
+
+            return matchesSearch && matchesRegion && matchesStatus;
+        });
+}
+
+function renderBranchLocationMap(selectedIndex = 0) {
+    const branchMapPins = document.getElementById("branchMapPins");
+    const branchLocationList = document.getElementById("branchLocationList");
+    const filteredBranches = getFilteredBranches();
+
+    branchMapPins.innerHTML = filteredBranches.map(({ branch, index }) => {
+        const { x, y } = projectBranchToMap(branch);
+
+        return `
+        <button class="branch-map-pin absolute -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full ${branch.status === "Peak" ? "bg-secondary text-on-secondary" : "bg-primary text-on-primary"} shadow border-2 border-white hover:scale-125 transition-all" style="left: ${x.toFixed(2)}%; top: ${y.toFixed(2)}%;" type="button" data-index="${index}" data-status="${branch.status}" aria-label="Select ${branch.name}"></button>
+        `;
+    }).join("");
+
+    branchLocationList.innerHTML = filteredBranches.length ? filteredBranches.map(({ branch, index }) => `
+        <button class="branch-location-item w-full text-left p-3 hover:bg-surface-container-low transition-colors" type="button" data-index="${index}">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <p class="font-label-lg text-label-lg text-on-surface truncate">${branch.name}</p>
+                    <p class="font-label-sm text-label-sm text-on-surface-variant">${branch.region} · ${branch.code}</p>
+                </div>
+                <div class="text-right shrink-0">
+                    <span class="font-label-sm text-label-sm ${branch.status === "Peak" ? "text-secondary bg-secondary-fixed" : "text-primary bg-primary-fixed"} px-2 py-0.5 rounded-md">${branch.status}</span>
+                    <p class="font-label-sm text-label-sm text-on-surface mt-1">${formatNumber(branch.visitors)} Visitors</p>
+                </div>
+            </div>
+        </button>
+    `).join("") : `<div class="p-4 font-body-sm text-body-sm text-on-surface-variant">No branches match the selected filters.</div>`;
+
+    document.getElementById("branchMapCount").textContent = `${filteredBranches.length} Branches`;
+
+    document.querySelectorAll(".branch-map-pin, .branch-location-item").forEach((item) => {
+        item.addEventListener("click", () => {
+            const selectedIndex = Number(item.dataset.index);
+            selectBranchLocation(selectedIndex);
+            focusBranchLocationItem(selectedIndex);
+        });
+    });
+
+    selectBranchLocation(filteredBranches.some(({ index }) => index === selectedIndex) ? selectedIndex : filteredBranches[0]?.index || 0);
+}
+
 function applySnapshot(snapshotIndex) {
     const snapshot = dashboardSnapshots[snapshotIndex];
     document.getElementById("totalRegistrations").textContent = formatNumber(snapshot.registrations);
@@ -675,8 +1384,9 @@ function applySnapshot(snapshotIndex) {
     updateProfile(profileSnapshots[snapshotIndex % profileSnapshots.length]);
 }
 
-function showRefreshToast() {
+function showRefreshToast(message = "Demo data updates automatically.") {
     const refreshToast = document.getElementById("refreshToast");
+    refreshToast.textContent = message;
     refreshToast.hidden = false;
     window.clearTimeout(showRefreshToast.timeoutId);
     showRefreshToast.timeoutId = window.setTimeout(() => {
@@ -684,31 +1394,22 @@ function showRefreshToast() {
     }, 1800);
 }
 
-function setRefreshState(isLoading) {
-    const refreshButton = document.getElementById("refreshDataButton");
-    const refreshIcon = document.getElementById("refreshIcon");
-    const refreshButtonText = document.getElementById("refreshButtonText");
-
-    refreshButton.disabled = isLoading;
-    refreshIcon.classList.toggle("spin-on-refresh", isLoading);
-    refreshButtonText.textContent = isLoading ? "Refreshing..." : "Refresh Data";
+function simulateLiveActivity() {
+    activeSnapshotIndex = (activeSnapshotIndex + 1) % dashboardSnapshots.length;
+    applySnapshot(activeSnapshotIndex);
 }
 
-function refreshDashboardData() {
-    if (isRefreshing) {
+function startLiveActivitySimulation() {
+    if (liveActivityTimerId !== null) {
         return;
     }
 
-    isRefreshing = true;
-    setRefreshState(true);
+    applySnapshot(activeSnapshotIndex);
+    liveActivityTimerId = window.setInterval(simulateLiveActivity, 3500);
+}
 
-    window.setTimeout(() => {
-        activeSnapshotIndex = (activeSnapshotIndex + 1) % dashboardSnapshots.length;
-        applySnapshot(activeSnapshotIndex);
-        setRefreshState(false);
-        showRefreshToast();
-        isRefreshing = false;
-    }, 650);
+function handleRefreshPlaceholder() {
+    showRefreshToast("Refresh is a placeholder. Live demo data updates automatically.");
 }
 
 function toggleProfileMenu() {
@@ -720,10 +1421,25 @@ function toggleProfileMenu() {
     profileButton.setAttribute("aria-expanded", String(willOpen));
 }
 
-document.getElementById("refreshDataButton").addEventListener("click", refreshDashboardData);
+document.getElementById("refreshDataButton")?.addEventListener("click", handleRefreshPlaceholder);
 document.getElementById("profileButton").addEventListener("click", (event) => {
     event.stopPropagation();
     toggleProfileMenu();
+});
+document.querySelectorAll(".staff-period-tab").forEach((tab) => {
+    tab.addEventListener("click", () => renderStaffRanking(tab.dataset.period));
+});
+document.querySelectorAll(".branch-period-tab").forEach((tab) => {
+    tab.addEventListener("click", () => renderBranchRanking(tab.dataset.period));
+});
+document.getElementById("branchSearchInput").addEventListener("input", () => renderBranchLocationMap());
+document.getElementById("branchRegionFilter").addEventListener("change", () => renderBranchLocationMap());
+document.getElementById("branchStatusFilter").addEventListener("change", () => renderBranchLocationMap());
+document.getElementById("closeStaffInfoButton").addEventListener("click", closeStaffInfo);
+document.getElementById("staffInfoModal").addEventListener("click", (event) => {
+    if (event.target.id === "staffInfoModal") {
+        closeStaffInfo();
+    }
 });
 
 document.addEventListener("click", (event) => {
@@ -743,7 +1459,13 @@ document.addEventListener("keydown", (event) => {
 
     document.getElementById("profileMenu").hidden = true;
     document.getElementById("profileButton").setAttribute("aria-expanded", "false");
+    closeStaffInfo();
 });
+
+startLiveActivitySimulation();
+renderBranchLocationMap();
+renderStaffRanking("daily");
+renderBranchRanking("daily");
 </script>
 </body></html>
  
