@@ -1086,8 +1086,8 @@ const branchMapPositionOverrides = {
     LDU: { x: 94, y: 43 }
 };
 
-let activeSnapshotIndex = 0;
 let liveActivityTimerId = null;
+let liveDashboardData = JSON.parse(JSON.stringify(dashboardSnapshots[0]));
 let branchMapZoom = 1;
 let branchMapPanX = 0;
 let branchMapPanY = 0;
@@ -1098,6 +1098,7 @@ const currentTimeLabel = () => new Date().toLocaleTimeString("en-MY", {
     hour: "2-digit",
     minute: "2-digit"
 });
+const randomInt = (minimum, maximum) => Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
 
 const dailyBranchVisitorMap = new Map(branchRankingData.daily.map((branch) => [branch.code, branch.visitors]));
 
@@ -1181,7 +1182,7 @@ function closeRegistrationInfo() {
 }
 
 function updateAttendanceBars(attendance) {
-    const maxValue = 950;
+    const maxValue = Math.max(950, Math.ceil(Math.max(attendance.member, attendance.employer, attendance.corporate) * 1.1));
     const barMap = [
         ["barSst", "barSstValue", attendance.member],
         ["barMip", "barMipValue", attendance.employer],
@@ -1199,7 +1200,7 @@ function updateAttendanceBars(attendance) {
 }
 
 function updateVolumeLine(values) {
-    const maxVolume = 150;
+    const maxVolume = Math.max(150, Math.ceil(Math.max(...values) * 1.15));
     const xPositions = [0, 25, 50, 75, 100];
     const yPositions = values.map((value) => 92 - ((value / maxVolume) * 84));
     const curve = yPositions.reduce((path, y, index) => {
@@ -1548,16 +1549,15 @@ function renderBranchLocationMap(selectedIndex = 0) {
     selectBranchLocation(filteredBranches.some(({ index }) => index === selectedIndex) ? selectedIndex : filteredBranches[0]?.index || 0);
 }
 
-function applySnapshot(snapshotIndex) {
-    const snapshot = dashboardSnapshots[snapshotIndex];
-    document.getElementById("totalRegistrations").textContent = formatNumber(snapshot.registrations);
-    document.getElementById("registrationTrendValue").textContent = snapshot.trend;
+function applyDashboardData(data) {
+    document.getElementById("totalRegistrations").textContent = formatNumber(data.registrations);
+    document.getElementById("registrationTrendValue").textContent = data.trend;
     document.getElementById("lastUpdated").textContent = `Last updated: ${currentTimeLabel()}`;
-    updateTopBranches(snapshot.branches);
-    updateRecentRegistrations(snapshot.recent);
-    updateAttendanceBars(snapshot.attendance);
-    updateVolumeLine(snapshot.line);
-    updateProfile(profileSnapshots[snapshotIndex % profileSnapshots.length]);
+    updateTopBranches(data.branches);
+    updateRecentRegistrations(data.recent);
+    updateAttendanceBars(data.attendance);
+    updateVolumeLine(data.line);
+    updateProfile(profileSnapshots[0]);
 }
 
 function showRefreshToast(message = "Demo data updates automatically.") {
@@ -1571,8 +1571,20 @@ function showRefreshToast(message = "Demo data updates automatically.") {
 }
 
 function simulateLiveActivity() {
-    activeSnapshotIndex = (activeSnapshotIndex + 1) % dashboardSnapshots.length;
-    applySnapshot(activeSnapshotIndex);
+    const registrationIncrease = randomInt(25, 50);
+    const memberIncrease = randomInt(12, registrationIncrease - 8);
+    const employerIncrease = randomInt(5, registrationIncrease - memberIncrease - 3);
+    const corporateIncrease = registrationIncrease - memberIncrease - employerIncrease;
+
+    liveDashboardData.registrations += registrationIncrease;
+    liveDashboardData.attendance.member += memberIncrease;
+    liveDashboardData.attendance.employer += employerIncrease;
+    liveDashboardData.attendance.corporate += corporateIncrease;
+    liveDashboardData.branches = liveDashboardData.branches.map(([name, volume]) => [name, volume + randomInt(6, 18)]);
+    liveDashboardData.line = liveDashboardData.line.map((value, index) => value + randomInt(index === liveDashboardData.line.length - 1 ? 12 : 4, index === liveDashboardData.line.length - 1 ? 20 : 12));
+    liveDashboardData.trend = `+${Math.min(Math.round(((liveDashboardData.registrations - dashboardSnapshots[0].registrations) / dashboardSnapshots[0].registrations) * 100) + 12, 99)}%`;
+
+    applyDashboardData(liveDashboardData);
 }
 
 function startLiveActivitySimulation() {
@@ -1580,8 +1592,8 @@ function startLiveActivitySimulation() {
         return;
     }
 
-    applySnapshot(activeSnapshotIndex);
-    liveActivityTimerId = window.setInterval(simulateLiveActivity, 3500);
+    applyDashboardData(liveDashboardData);
+    liveActivityTimerId = window.setInterval(simulateLiveActivity, 3000);
 }
 
 function handleRefreshPlaceholder() {
