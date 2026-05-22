@@ -591,7 +591,7 @@
 </div>
 </div>
 <div class="overflow-x-auto">
-<table class="w-full min-w-[560px] text-left border-collapse">
+<table class="w-full min-w-[760px] text-left border-collapse">
 <thead>
 <tr class="bg-surface-container-highest border-b border-outline-variant">
 <th class="p-3 font-label-lg text-label-lg text-on-surface-variant w-16">Rank</th>
@@ -664,6 +664,7 @@
 <th class="p-3 font-label-lg text-label-lg text-on-surface-variant w-16">Rank</th>
 <th class="p-3 font-label-lg text-label-lg text-on-surface-variant">Branch</th>
 <th class="p-3 font-label-lg text-label-lg text-on-surface-variant">Region</th>
+<th class="p-3 font-label-lg text-label-lg text-on-surface-variant text-right">Active Staff</th>
 <th class="p-3 font-label-lg text-label-lg text-on-surface-variant text-right">Visitors</th>
 </tr>
 </thead>
@@ -1514,6 +1515,23 @@ function closeStaffInfo() {
     document.getElementById("staffInfoModal").hidden = true;
 }
 
+function getActiveStaffCount(branch, period) {
+    const visitorDivisorByPeriod = {
+        daily: 55,
+        weekly: 220,
+        monthly: 760
+    };
+    const minimumStaffByPeriod = {
+        daily: 4,
+        weekly: 28,
+        monthly: 96
+    };
+    const divisor = visitorDivisorByPeriod[period] || visitorDivisorByPeriod.daily;
+    const minimumStaff = minimumStaffByPeriod[period] || minimumStaffByPeriod.daily;
+
+    return Math.max(minimumStaff, Math.round(branch.visitors / divisor));
+}
+
 function renderBranchRanking(period) {
     const periodLabels = {
         daily: "daily",
@@ -1523,7 +1541,9 @@ function renderBranchRanking(period) {
     const branchRankingBody = document.getElementById("branchRankingBody");
     const rankingRows = branchRankingData[period] || branchRankingData.daily;
 
-    branchRankingBody.innerHTML = rankingRows.map((branch, index) => `
+    branchRankingBody.innerHTML = rankingRows.map((branch, index) => {
+        const activeStaff = getActiveStaffCount(branch, period);
+        return `
         <tr class="hover:bg-surface-container-low transition-colors">
             <td class="p-3">
                 <span class="inline-flex w-8 h-8 items-center justify-center rounded-full ${index < 3 ? "bg-tertiary text-on-tertiary" : "bg-surface-container-high text-on-surface"} font-label-lg text-label-lg">${index + 1}</span>
@@ -1538,9 +1558,11 @@ function renderBranchRanking(period) {
                 </div>
             </td>
             <td class="p-3">${branch.region}</td>
+            <td class="p-3 text-right font-label-lg text-label-lg text-on-surface">${formatNumber(activeStaff)}</td>
             <td class="p-3 text-right font-label-lg text-label-lg text-primary">${formatNumber(branch.visitors)}</td>
         </tr>
-    `).join("");
+        `;
+    }).join("");
 
     document.getElementById("branchRankingDescription").textContent = `Top 10 branches by ${periodLabels[period]} visitor volume.`;
 
