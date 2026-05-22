@@ -404,7 +404,7 @@
 </div>
 </div>
 </div>
-<aside class="border-t xl:border-t-0 xl:border-l border-outline-variant p-4 flex flex-col min-w-0">
+<aside id="branchDirectoryPanel" class="border-t xl:border-t-0 xl:border-l border-outline-variant p-4 flex flex-col min-w-0">
 <div class="flex items-center justify-between mb-3">
 <h4 id="branchMapCount" class="font-label-lg text-label-lg text-on-surface">15 Branches</h4>
 <span id="selectedBranchStatus" class="font-label-sm text-label-sm text-secondary bg-secondary-fixed px-2 py-1 rounded-md">Peak</span>
@@ -544,6 +544,37 @@
 </svg>
 </div>
 </div>
+</div>
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 sm:p-6 flex flex-col min-h-[520px] sm:min-h-[420px] lg:h-[400px] lg:min-h-0 lg:col-span-2">
+<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4 sm:mb-6">
+<div>
+<h3 class="font-headline-md text-body-lg sm:text-headline-md text-on-surface">Reasons by Customer Type</h3>
+<p id="topReasonDescription" class="font-label-sm text-label-sm text-on-surface-variant mt-1">Reason split for all customer types.</p>
+</div>
+<div class="relative w-full sm:w-44">
+<select id="topReasonCustomerTypeFilter" class="w-full px-3 py-2 rounded-lg border border-outline-variant bg-surface-container-lowest font-body-sm text-body-sm focus:ring-primary focus:border-primary" aria-label="Filter top reasons by customer type">
+<option value="all">All Customer Types</option>
+<option value="member">Member</option>
+<option value="employer">Employer</option>
+<option value="business">Business</option>
+</select>
+</div>
+</div>
+<div class="flex-grow grid grid-cols-1 md:grid-cols-[minmax(180px,0.45fr)_1fr] gap-4 items-center min-h-0">
+<div class="relative w-full max-w-[170px] sm:max-w-[200px] lg:max-w-[220px] mx-auto aspect-square">
+<svg id="topReasonPieChart" class="w-full h-full -rotate-90" viewBox="0 0 42 42" aria-label="Reasons pie chart" role="img">
+<circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#e5e2e1" stroke-width="7"></circle>
+<g id="topReasonPieSegments"></g>
+</svg>
+<div id="topReasonTooltip" class="pointer-events-none absolute z-30 hidden rounded-lg bg-inverse-surface text-inverse-on-surface px-3 py-2 shadow-lg font-label-sm text-label-sm min-w-36"></div>
+<div class="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center">
+<span id="topReasonTotal" class="font-headline-md text-headline-md text-primary">0</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">visits</span>
+</div>
+</div>
+<div id="topReasonLegend" class="grid grid-cols-1 md:grid-cols-2 gap-2 overflow-y-auto pr-1 max-h-56 sm:max-h-52 lg:max-h-64"></div>
+</div>
+</section>
 </div>
 <div class="grid grid-cols-1 xl:grid-cols-2 gap-stack-md md:gap-gutter">
 <!-- Most Active Staff Section -->
@@ -846,6 +877,35 @@ const registrationStaffAssignments = [
     { name: "Daniel Tan", initials: "DT", staffId: "EPF-08109" }
 ];
 
+const topReasonRankingData = {
+    all: [
+        { reason: "SST", category: "Member", count: 426, color: "#101f79" },
+        { reason: "Withdrawal", category: "Member", count: 384, color: "#bb0013" },
+        { reason: "Counter", category: "All Types", count: 440, color: "#735c00" },
+        { reason: "Register member", category: "Employer", count: 298, color: "#4a57ae" },
+        { reason: "Change phone number", category: "Member", count: 256, color: "#cca830" },
+        { reason: "Handing out documents", category: "Employer", count: 246, color: "#2b388f" },
+        { reason: "Business registration", category: "Business", count: 214, color: "#e71520" },
+        { reason: "Third party access", category: "Business", count: 176, color: "#767683" }
+    ],
+    member: [
+        { reason: "SST", category: "Member", count: 426, color: "#101f79" },
+        { reason: "Withdrawal", category: "Member", count: 384, color: "#bb0013" },
+        { reason: "Change phone number", category: "Member", count: 256, color: "#735c00" },
+        { reason: "Counter", category: "Member", count: 188, color: "#4a57ae" }
+    ],
+    employer: [
+        { reason: "Register member", category: "Employer", count: 298, color: "#101f79" },
+        { reason: "Handing out documents", category: "Employer", count: 246, color: "#bb0013" },
+        { reason: "Counter", category: "Employer", count: 154, color: "#735c00" }
+    ],
+    business: [
+        { reason: "Business registration", category: "Business", count: 214, color: "#101f79" },
+        { reason: "Third party access", category: "Business", count: 176, color: "#bb0013" },
+        { reason: "Counter", category: "Business", count: 98, color: "#735c00" }
+    ]
+};
+
 const staffRankingData = {
     daily: [
         { name: "Aina Rahman", initials: "AR", branch: "Kuala Lumpur Main", role: "Registration Desk", cases: 184 },
@@ -1106,6 +1166,7 @@ liveDashboardData.line[liveDashboardData.line.length - 1] = randomInt(0, 50);
 let volumeChartIncreaseCount = 0;
 let volumeChartCurrentHour = new Date();
 volumeChartCurrentHour.setMinutes(0, 0, 0);
+let activeTopReasonSlices = [];
 let branchMapZoom = 1;
 let branchMapPanX = 0;
 let branchMapPanY = 0;
@@ -1256,6 +1317,117 @@ function updateVolumeHourLabels() {
         const hour = new Date(volumeChartCurrentHour);
         hour.setHours(volumeChartCurrentHour.getHours() - (4 - index));
         label.textContent = hourLabel(hour);
+    });
+}
+
+function renderTopReasons(customerType = "all") {
+    const pieSegments = document.getElementById("topReasonPieSegments");
+    const pieLegend = document.getElementById("topReasonLegend");
+    const reasons = [...(topReasonRankingData[customerType] || topReasonRankingData.all)]
+        .sort((firstReason, secondReason) => secondReason.count - firstReason.count);
+    const total = reasons.reduce((sum, reason) => sum + reason.count, 0);
+    let offset = 0;
+
+    activeTopReasonSlices = [];
+    pieSegments.innerHTML = reasons.map((reason) => {
+        const percentage = (reason.count / total) * 100;
+        const tooltip = `${reason.reason}|${formatNumber(reason.count)} visits|${Math.round(percentage)}%`;
+        activeTopReasonSlices.push({
+            tooltip,
+            start: offset,
+            end: offset + percentage
+        });
+        const segment = `
+            <circle class="top-reason-slice transition-opacity hover:opacity-80 focus:opacity-80 outline-none cursor-pointer" tabindex="0" cx="21" cy="21" r="15.915" fill="transparent" stroke="${reason.color}" stroke-width="7" pathLength="100" stroke-dasharray="${percentage.toFixed(2)} ${Math.max(100 - percentage, 0).toFixed(2)}" stroke-dashoffset="${(-offset).toFixed(2)}" data-tooltip="${tooltip}" pointer-events="stroke" style="pointer-events: stroke;"></circle>
+        `;
+        offset += percentage;
+        return segment;
+    }).join("");
+
+    const rankedReasons = reasons.map((reason, index) => ({ ...reason, rank: index + 1 }));
+    const legendColumnBreak = Math.ceil(rankedReasons.length / 2);
+    const orderedLegendReasons = Array.from({ length: legendColumnBreak }, (_, index) => {
+        return [rankedReasons[index], rankedReasons[index + legendColumnBreak]].filter(Boolean);
+    }).flat();
+
+    pieLegend.innerHTML = orderedLegendReasons.map((reason) => {
+        const percentage = Math.round((reason.count / total) * 100);
+
+        return `
+        <div class="flex items-center justify-between gap-3 border border-outline-variant rounded-lg px-3 py-2 bg-surface-container-lowest">
+            <div class="flex items-center gap-2 min-w-0">
+                <span class="w-3 h-3 rounded-full shrink-0" style="background-color: ${reason.color};"></span>
+                <div class="min-w-0">
+                    <p class="font-label-lg text-label-lg text-on-surface truncate">${reason.rank}. ${reason.reason}</p>
+                    <p class="font-label-sm text-label-sm text-on-surface-variant">${reason.category}</p>
+                </div>
+            </div>
+            <div class="text-right shrink-0">
+                <p class="font-label-lg text-label-lg text-primary">${percentage}%</p>
+                <p class="font-label-sm text-label-sm text-on-surface-variant">${formatNumber(reason.count)}</p>
+            </div>
+        </div>
+        `;
+    }).join("");
+
+    document.getElementById("topReasonTotal").textContent = formatNumber(total);
+    document.getElementById("topReasonDescription").textContent = `All reasons for ${customerType === "all" ? "all customer types" : customerType}.`;
+    attachTopReasonTooltipHandlers();
+}
+
+function showTopReasonTooltip(slice, event) {
+    const tooltip = document.getElementById("topReasonTooltip");
+    const tooltipText = typeof slice === "string" ? slice : slice.dataset.tooltip;
+    const [reason, count, percentage] = tooltipText.split("|");
+    const chartContainer = typeof slice === "string"
+        ? document.getElementById("topReasonPieChart").closest(".relative")
+        : slice.closest(".relative");
+    const chartBounds = chartContainer.getBoundingClientRect();
+    const clientX = event?.clientX ?? chartBounds.left + (chartBounds.width / 2);
+    const clientY = event?.clientY ?? chartBounds.top + (chartBounds.height / 2);
+
+    tooltip.innerHTML = `<strong class="block">${reason}</strong><span class="block opacity-90">${count}</span><span class="block opacity-90">${percentage}</span>`;
+    tooltip.style.left = `${Math.min(Math.max(clientX - chartBounds.left + 12, 8), chartBounds.width - 150)}px`;
+    tooltip.style.top = `${Math.min(Math.max(clientY - chartBounds.top + 12, 8), chartBounds.height - 82)}px`;
+    tooltip.classList.remove("hidden");
+}
+
+function hideTopReasonTooltip() {
+    document.getElementById("topReasonTooltip").classList.add("hidden");
+}
+
+function handleTopReasonPieMove(event) {
+    const chartBounds = event.currentTarget.getBoundingClientRect();
+    const x = ((event.clientX - chartBounds.left) / chartBounds.width) * 42 - 21;
+    const y = ((event.clientY - chartBounds.top) / chartBounds.height) * 42 - 21;
+    const distanceFromCenter = Math.sqrt((x * x) + (y * y));
+
+    if (distanceFromCenter > 21) {
+        hideTopReasonTooltip();
+        return;
+    }
+
+    const percentageAtPointer = (((Math.atan2(x, -y) * 180) / Math.PI) + 360) % 360 / 360 * 100;
+    const activeSlice = activeTopReasonSlices.find((slice) => percentageAtPointer >= slice.start && percentageAtPointer <= slice.end)
+        || activeTopReasonSlices[activeTopReasonSlices.length - 1];
+
+    if (activeSlice) {
+        showTopReasonTooltip(activeSlice.tooltip, event);
+    }
+}
+
+function attachTopReasonTooltipHandlers() {
+    const pieChart = document.getElementById("topReasonPieChart");
+
+    pieChart.onmousemove = handleTopReasonPieMove;
+    pieChart.onmouseleave = hideTopReasonTooltip;
+
+    document.querySelectorAll(".top-reason-slice").forEach((slice) => {
+        slice.addEventListener("mouseenter", (event) => showTopReasonTooltip(slice, event));
+        slice.addEventListener("mousemove", (event) => showTopReasonTooltip(slice, event));
+        slice.addEventListener("mouseleave", hideTopReasonTooltip);
+        slice.addEventListener("focus", (event) => showTopReasonTooltip(slice, event));
+        slice.addEventListener("blur", hideTopReasonTooltip);
     });
 }
 
@@ -1482,6 +1654,23 @@ function resetBranchMapView() {
     updateBranchMapTransform();
 }
 
+function syncBranchDirectoryHeight() {
+    const branchMapFrame = document.getElementById("branchMapFrame");
+    const branchDirectoryPanel = document.getElementById("branchDirectoryPanel");
+    const branchLocationList = document.getElementById("branchLocationList");
+
+    if (window.innerWidth < 1280) {
+        branchLocationList.style.maxHeight = "";
+        return;
+    }
+
+    const panelTopRow = branchDirectoryPanel.querySelector(".flex.items-center.justify-between");
+    const panelPaddingY = 32;
+    const topRowHeight = panelTopRow ? panelTopRow.offsetHeight + 12 : 0;
+    const availableHeight = Math.max(branchMapFrame.offsetHeight - panelPaddingY - topRowHeight, 220);
+    branchLocationList.style.maxHeight = `${availableHeight}px`;
+}
+
 function selectBranchLocation(index) {
     const branch = branchLocationData[index] || branchLocationData[0];
     const statusClass = branch.status === "Peak" ? "text-secondary bg-secondary-fixed" : "text-primary bg-primary-fixed";
@@ -1545,7 +1734,7 @@ function renderBranchLocationMap(selectedIndex = 0) {
         const { x, y } = projectBranchToMap(branch);
 
         return `
-        <button class="branch-map-pin absolute -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full ${branch.status === "Peak" ? "bg-secondary text-on-secondary" : "bg-primary text-on-primary"} shadow border-2 border-white hover:scale-125 transition-all" style="left: ${x.toFixed(2)}%; top: ${y.toFixed(2)}%;" type="button" data-index="${index}" data-status="${branch.status}" aria-label="Select ${branch.name}"></button>
+        <button class="branch-map-pin absolute -translate-x-1/2 -translate-y-1/2 w-[7px] h-[7px] rounded-full ${branch.status === "Peak" ? "bg-secondary text-on-secondary" : "bg-primary text-on-primary"} shadow border border-white hover:scale-150 transition-all" style="left: ${x.toFixed(2)}%; top: ${y.toFixed(2)}%;" type="button" data-index="${index}" data-status="${branch.status}" aria-label="Select ${branch.name}"></button>
         `;
     }).join("");
 
@@ -1565,6 +1754,7 @@ function renderBranchLocationMap(selectedIndex = 0) {
     `).join("") : `<div class="p-4 font-body-sm text-body-sm text-on-surface-variant">No branches match the selected filters.</div>`;
 
     document.getElementById("branchMapCount").textContent = `${filteredBranches.length} Branches`;
+    syncBranchDirectoryHeight();
 
     document.querySelectorAll(".branch-map-pin, .branch-location-item").forEach((item) => {
         item.addEventListener("click", () => {
@@ -1660,10 +1850,12 @@ document.querySelectorAll(".branch-period-tab").forEach((tab) => {
 document.getElementById("branchSearchInput").addEventListener("input", () => renderBranchLocationMap());
 document.getElementById("branchRegionFilter").addEventListener("change", () => renderBranchLocationMap());
 document.getElementById("branchStatusFilter").addEventListener("change", () => renderBranchLocationMap());
+document.getElementById("topReasonCustomerTypeFilter").addEventListener("change", (event) => renderTopReasons(event.target.value));
 document.getElementById("branchMapZoomIn").addEventListener("click", () => updateBranchMapZoom(branchMapZoom + 0.2));
 document.getElementById("branchMapZoomOut").addEventListener("click", () => updateBranchMapZoom(branchMapZoom - 0.2));
 document.getElementById("branchMapZoomReset").addEventListener("click", resetBranchMapView);
 document.getElementById("branchMapFrame").addEventListener("pointerdown", startBranchMapDrag);
+window.addEventListener("resize", syncBranchDirectoryHeight);
 document.addEventListener("pointermove", moveBranchMapDrag);
 document.addEventListener("pointerup", endBranchMapDrag);
 document.addEventListener("pointercancel", endBranchMapDrag);
@@ -1703,6 +1895,8 @@ document.addEventListener("keydown", (event) => {
 
 startLiveActivitySimulation();
 renderBranchLocationMap();
+syncBranchDirectoryHeight();
+renderTopReasons();
 renderStaffRanking("daily");
 renderBranchRanking("daily");
 </script>
