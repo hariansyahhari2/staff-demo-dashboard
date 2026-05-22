@@ -259,7 +259,7 @@
 <!-- Main Content -->
 <main class="flex-grow w-full max-w-container-max-width mx-auto px-margin-mobile md:px-margin-desktop py-stack-md md:py-stack-lg flex flex-col gap-stack-md md:gap-gutter">
 <!-- Dashboard Header -->
-<div class="flex flex-col sm:flex-row justify-between sm:items-end gap-4 mb-stack-sm">
+<div class="flex flex-col sm:flex-row justify-between sm:items-end gap-4 mb-stack-sm" style="order: -2;">
 <div>
 <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Branch Tracker</h2>
 <p class="font-body-md text-body-md text-on-surface-variant mt-1">Real-time visitor and staff metrics for today.</p>
@@ -350,7 +350,7 @@
 </div>
 </section>
 <!-- Branch Locator & Directory -->
-<section class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden" style="order: -1;">
 <div class="p-4 bg-surface-container-low border-b border-outline-variant flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 <div>
 <h3 class="font-headline-md text-headline-md text-on-surface">Branch Locator &amp; Directory</h3>
@@ -440,33 +440,34 @@
 <h3 class="font-headline-md text-body-lg sm:text-headline-md text-on-surface mb-4 sm:mb-6">Customer Type</h3>
 <div class="flex-grow flex items-end gap-2 sm:gap-4 relative min-w-0">
 <!-- Y Axis Labels (Mock) -->
-<div class="absolute left-0 top-0 bottom-8 flex flex-col justify-between text-label-sm text-on-surface-variant font-label-sm">
-<span>400</span>
-<span>300</span>
-<span>200</span>
-<span>100</span>
+<div id="customerTypeYAxisLabels" class="absolute left-0 top-0 bottom-8 flex flex-col-reverse justify-between text-label-sm text-on-surface-variant font-label-sm">
 <span>0</span>
+<span>200</span>
+<span>400</span>
+<span>600</span>
+<span>800</span>
+<span>1,000</span>
 </div>
 <!-- Chart Area -->
 <div class="ml-7 sm:ml-8 flex-grow flex items-end justify-around h-full border-b border-l border-outline-variant pb-2 pl-2 min-w-0">
 <!-- Bar 1 -->
 <div class="flex flex-col items-center justify-end gap-2 w-1/5 h-full min-w-0 group">
 <div id="barSst" class="w-full min-h-6 bg-primary rounded-t-sm group-hover:bg-primary-fixed-variant transition-all duration-300 relative" style="height: 80%;">
-<div id="barSstValue" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm py-1 px-2 rounded opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">820</div>
+<div id="barSstValue" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm py-1 px-2 rounded opacity-100 transition-opacity">820</div>
 </div>
 <span class="font-label-sm text-label-sm text-on-surface-variant text-center leading-tight">Member</span>
 </div>
 <!-- Bar 2 -->
 <div class="flex flex-col items-center justify-end gap-2 w-1/5 h-full min-w-0 group">
 <div id="barMip" class="w-full min-h-6 bg-tertiary rounded-t-sm group-hover:bg-tertiary-fixed-dim transition-all duration-300 relative" style="height: 45%;">
-<div id="barMipValue" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm py-1 px-2 rounded opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">280</div>
+<div id="barMipValue" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm py-1 px-2 rounded opacity-100 transition-opacity">280</div>
 </div>
 <span class="font-label-sm text-label-sm text-on-surface-variant text-center leading-tight">Employer</span>
 </div>
 <!-- Bar 3 -->
 <div class="flex flex-col items-center justify-end gap-2 w-1/5 h-full min-w-0 group">
 <div id="barEip" class="w-full min-h-6 bg-primary-fixed-dim rounded-t-sm group-hover:bg-primary-fixed transition-all duration-300 relative" style="height: 30%;">
-<div id="barEipValue" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm py-1 px-2 rounded opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">96</div>
+<div id="barEipValue" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm py-1 px-2 rounded opacity-100 transition-opacity">96</div>
 </div>
 <span class="font-label-sm text-label-sm text-on-surface-variant text-center leading-tight">Corporate</span>
 </div>
@@ -499,12 +500,13 @@
                     Live trend
                 </span>
 </div>
-<div class="flex-grow relative ml-8 sm:ml-10 mb-8 rounded-lg bg-surface-container-low/40 border border-outline-variant overflow-hidden">
+<div class="flex-grow relative ml-10 sm:ml-12 mb-11 rounded-lg bg-surface-container-low/40 border border-outline-variant overflow-hidden">
+<div class="absolute -left-10 sm:-left-12 top-1/2 -translate-y-1/2 -rotate-90 origin-center text-[10px] sm:text-label-sm text-on-surface-variant font-label-sm whitespace-nowrap">Volume</div>
 <!-- Y Axis Labels (Mock) -->
-<div class="absolute -left-8 sm:-left-10 top-0 bottom-0 flex flex-col justify-between text-label-sm text-on-surface-variant font-label-sm py-3">
-<span>150</span>
-<span>100</span>
-<span>50</span>
+<div class="absolute -left-7 sm:-left-8 top-0 bottom-0 flex flex-col justify-between text-label-sm text-on-surface-variant font-label-sm py-3">
+<span id="volumeYAxisMax">150</span>
+<span id="volumeYAxisMid">100</span>
+<span id="volumeYAxisLow">50</span>
 <span>0</span>
 </div>
 <div class="absolute inset-x-0 top-[16%] border-t border-dashed border-outline-variant"></div>
@@ -512,12 +514,13 @@
 <div class="absolute inset-x-0 top-[80%] border-t border-dashed border-outline-variant"></div>
 <!-- X Axis Labels -->
 <div class="absolute -bottom-6 left-0 right-0 flex justify-between text-[10px] sm:text-label-sm text-on-surface-variant font-label-sm">
-<span>8 AM</span>
-<span>10 AM</span>
-<span>12 PM</span>
-<span>2 PM</span>
-<span>4 PM</span>
+<span class="volume-hour-label">12 PM</span>
+<span class="volume-hour-label">1 PM</span>
+<span class="volume-hour-label">2 PM</span>
+<span class="volume-hour-label">3 PM</span>
+<span class="volume-hour-label">4 PM</span>
 </div>
+<div class="absolute -bottom-10 left-0 right-0 text-center text-[10px] sm:text-label-sm text-on-surface-variant font-label-sm">Time</div>
 <svg class="w-full h-full absolute top-0 left-0" preserveAspectRatio="none" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="blue-gradient" x1="0" x2="0" y1="0" y2="1">
@@ -758,7 +761,7 @@ const dashboardSnapshots = [
             ["Shah Alam", 815]
         ],
         attendance: { member: 872, employer: 280, corporate: 96 },
-        line: [42, 92, 128, 114, 132],
+        line: [168, 154, 142, 136, 74],
         recent: [
             ["CUS-8921", "Member", "SST Enquiry", "Kuala Lumpur Main"],
             ["EMP-4432", "Employer", "Contribution Issue", "Petaling Jaya"],
@@ -776,7 +779,7 @@ const dashboardSnapshots = [
             ["Johor Bahru", 872]
         ],
         attendance: { member: 918, employer: 304, corporate: 104 },
-        line: [48, 88, 136, 126, 142],
+        line: [176, 162, 148, 139, 82],
         recent: [
             ["CUS-8930", "Member", "Account Statement", "Petaling Jaya"],
             ["EMP-4440", "Employer", "Contribution Issue", "Kuala Lumpur Main"],
@@ -794,7 +797,7 @@ const dashboardSnapshots = [
             ["Shah Alam", 804]
         ],
         attendance: { member: 779, employer: 322, corporate: 88 },
-        line: [36, 74, 108, 98, 118],
+        line: [158, 146, 133, 121, 68],
         recent: [
             ["EMP-4445", "Employer", "Payment Assistance", "Shah Alam"],
             ["CUS-8938", "Member", "Withdrawal", "Kuala Lumpur Main"],
@@ -1086,19 +1089,27 @@ const branchMapPositionOverrides = {
     LDU: { x: 94, y: 43 }
 };
 
-let liveActivityTimerId = null;
-let liveDashboardData = JSON.parse(JSON.stringify(dashboardSnapshots[0]));
-let branchMapZoom = 1;
-let branchMapPanX = 0;
-let branchMapPanY = 0;
-let branchMapDragStart = null;
-
 const formatNumber = (value) => new Intl.NumberFormat("en-MY").format(value);
 const currentTimeLabel = () => new Date().toLocaleTimeString("en-MY", {
     hour: "2-digit",
     minute: "2-digit"
 });
+const hourLabel = (date) => date.toLocaleTimeString("en-MY", {
+    hour: "numeric",
+    hour12: true
+});
 const randomInt = (minimum, maximum) => Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+
+let liveActivityTimerId = null;
+let liveDashboardData = JSON.parse(JSON.stringify(dashboardSnapshots[0]));
+liveDashboardData.line[liveDashboardData.line.length - 1] = randomInt(0, 50);
+let volumeChartIncreaseCount = 0;
+let volumeChartCurrentHour = new Date();
+volumeChartCurrentHour.setMinutes(0, 0, 0);
+let branchMapZoom = 1;
+let branchMapPanX = 0;
+let branchMapPanY = 0;
+let branchMapDragStart = null;
 
 const dailyBranchVisitorMap = new Map(branchRankingData.daily.map((branch) => [branch.code, branch.visitors]));
 
@@ -1182,7 +1193,9 @@ function closeRegistrationInfo() {
 }
 
 function updateAttendanceBars(attendance) {
-    const maxValue = Math.max(950, Math.ceil(Math.max(attendance.member, attendance.employer, attendance.corporate) * 1.1));
+    const axisStep = 200;
+    const highestValue = Math.max(attendance.member, attendance.employer, attendance.corporate);
+    const maxValue = Math.max(1000, Math.ceil(highestValue / axisStep) * axisStep);
     const barMap = [
         ["barSst", "barSstValue", attendance.member],
         ["barMip", "barMipValue", attendance.employer],
@@ -1194,6 +1207,10 @@ function updateAttendanceBars(attendance) {
         document.getElementById(valueId).textContent = formatNumber(value);
     });
 
+    document.getElementById("customerTypeYAxisLabels").innerHTML = Array.from(
+        { length: (maxValue / axisStep) + 1 },
+        (_, index) => `<span>${formatNumber(index * axisStep)}</span>`
+    ).join("");
     document.getElementById("summarySst").textContent = formatNumber(attendance.member);
     document.getElementById("summaryMip").textContent = formatNumber(attendance.employer);
     document.getElementById("summaryEip").textContent = formatNumber(attendance.corporate);
@@ -1218,6 +1235,9 @@ function updateVolumeLine(values) {
 
     document.getElementById("volumeLine").setAttribute("d", curve);
     document.getElementById("volumeArea").setAttribute("d", `${curve} L100,100 L0,100 Z`);
+    document.getElementById("volumeYAxisMax").textContent = maxVolume;
+    document.getElementById("volumeYAxisMid").textContent = Math.round(maxVolume * 0.67);
+    document.getElementById("volumeYAxisLow").textContent = Math.round(maxVolume * 0.33);
 
     document.querySelectorAll(".volume-point").forEach((point, index) => {
         point.setAttribute("cx", xPositions[index]);
@@ -1228,6 +1248,14 @@ function updateVolumeLine(values) {
         const labelY = Math.max(yPositions[index] - 5, 6);
         label.setAttribute("y", labelY.toFixed(1));
         label.textContent = values[index];
+    });
+}
+
+function updateVolumeHourLabels() {
+    document.querySelectorAll(".volume-hour-label").forEach((label, index) => {
+        const hour = new Date(volumeChartCurrentHour);
+        hour.setHours(volumeChartCurrentHour.getHours() - (4 - index));
+        label.textContent = hourLabel(hour);
     });
 }
 
@@ -1557,6 +1585,7 @@ function applyDashboardData(data) {
     updateRecentRegistrations(data.recent);
     updateAttendanceBars(data.attendance);
     updateVolumeLine(data.line);
+    updateVolumeHourLabels();
     updateProfile(profileSnapshots[0]);
 }
 
@@ -1571,17 +1600,25 @@ function showRefreshToast(message = "Demo data updates automatically.") {
 }
 
 function simulateLiveActivity() {
-    const registrationIncrease = randomInt(25, 50);
-    const memberIncrease = randomInt(12, registrationIncrease - 8);
-    const employerIncrease = randomInt(5, registrationIncrease - memberIncrease - 3);
-    const corporateIncrease = registrationIncrease - memberIncrease - employerIncrease;
+    const memberIncrease = randomInt(18, 30);
+    const employerIncrease = randomInt(8, 14);
+    const corporateIncrease = randomInt(3, 8);
+    const registrationIncrease = memberIncrease + employerIncrease + corporateIncrease;
 
     liveDashboardData.registrations += registrationIncrease;
     liveDashboardData.attendance.member += memberIncrease;
     liveDashboardData.attendance.employer += employerIncrease;
     liveDashboardData.attendance.corporate += corporateIncrease;
     liveDashboardData.branches = liveDashboardData.branches.map(([name, volume]) => [name, volume + randomInt(6, 18)]);
-    liveDashboardData.line = liveDashboardData.line.map((value, index) => value + randomInt(index === liveDashboardData.line.length - 1 ? 12 : 4, index === liveDashboardData.line.length - 1 ? 20 : 12));
+    liveDashboardData.line = liveDashboardData.line.map((value, index) => index === liveDashboardData.line.length - 1 ? value + registrationIncrease : value);
+    volumeChartIncreaseCount += 1;
+
+    if (volumeChartIncreaseCount >= 5) {
+        volumeChartIncreaseCount = 0;
+        volumeChartCurrentHour.setHours(volumeChartCurrentHour.getHours() + 1);
+        liveDashboardData.line = [...liveDashboardData.line.slice(1), randomInt(0, 50)];
+    }
+
     liveDashboardData.trend = `+${Math.min(Math.round(((liveDashboardData.registrations - dashboardSnapshots[0].registrations) / dashboardSnapshots[0].registrations) * 100) + 12, 99)}%`;
 
     applyDashboardData(liveDashboardData);
