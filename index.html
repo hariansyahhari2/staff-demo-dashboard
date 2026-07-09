@@ -1255,9 +1255,8 @@ function closeRegistrationInfo() {
 }
 
 function updateAttendanceBars(attendance) {
-    const axisStep = 200;
     const highestValue = Math.max(attendance.member, attendance.employer, attendance.corporate);
-    const maxValue = Math.max(1000, Math.ceil(highestValue / axisStep) * axisStep);
+    const maxValue = Math.max(1000, Math.ceil(highestValue * 1.1 / 200) * 200);
     const barMap = [
         ["barSst", "barSstValue", attendance.member],
         ["barMip", "barMipValue", attendance.employer],
@@ -1269,9 +1268,11 @@ function updateAttendanceBars(attendance) {
         document.getElementById(valueId).textContent = formatNumber(value);
     });
 
+    const labelCount = 5;
+    const labelStep = maxValue / labelCount;
     document.getElementById("customerTypeYAxisLabels").innerHTML = Array.from(
-        { length: (maxValue / axisStep) + 1 },
-        (_, index) => `<span>${formatNumber(index * axisStep)}</span>`
+        { length: labelCount + 1 },
+        (_, index) => `<span>${formatNumber(Math.round(index * labelStep))}</span>`
     ).join("");
     document.getElementById("summarySst").textContent = formatNumber(attendance.member);
     document.getElementById("summaryMip").textContent = formatNumber(attendance.employer);
@@ -1817,11 +1818,11 @@ function simulateLiveActivity() {
     const corporateIncrease = randomInt(3, 8);
     const registrationIncrease = memberIncrease + employerIncrease + corporateIncrease;
 
-    liveDashboardData.registrations += registrationIncrease;
-    liveDashboardData.attendance.member += memberIncrease;
-    liveDashboardData.attendance.employer += employerIncrease;
-    liveDashboardData.attendance.corporate += corporateIncrease;
-    liveDashboardData.branches = liveDashboardData.branches.map(([name, volume]) => [name, volume + randomInt(6, 18)]);
+    liveDashboardData.registrations = Math.min(liveDashboardData.registrations + registrationIncrease, 6000);
+    liveDashboardData.attendance.member = Math.min(liveDashboardData.attendance.member + memberIncrease, 4000);
+    liveDashboardData.attendance.employer = Math.min(liveDashboardData.attendance.employer + employerIncrease, 1600);
+    liveDashboardData.attendance.corporate = Math.min(liveDashboardData.attendance.corporate + corporateIncrease, 600);
+    liveDashboardData.branches = liveDashboardData.branches.map(([name, volume]) => [name, Math.min(volume + randomInt(6, 18), 3000)]);
     liveDashboardData.line = liveDashboardData.line.map((value, index) => index === liveDashboardData.line.length - 1 ? value + registrationIncrease : value);
     volumeChartIncreaseCount += 1;
 
